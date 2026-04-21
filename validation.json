@@ -4,84 +4,84 @@
   "status": "IN_PROGRESS",
   "plan_checksum": null,
   "initialized": null,
-  "current_phase": 0,
-  "current_task": "0.1",
+  "current_phase": 4,
+  "current_task": "4.1",
   "notes": "Plan authored 2026-04-21. Phase 1 (scaffold) pre-marked PASS based on session N work. Project was originally scaffolded as 'plan-executor-mvp-skill-dev' under skills-dev/; renamed and moved to 'plan-executor-tools-dev' under tools-dev/ later the same day to correctly reflect its CLI-First tools nature (no skill wrapper per D1). Execution runs under MANUAL DISCIPLINE — this project cannot enforce its own construction (chicken-and-egg). Orchestrator manually reads this file, runs criteria, and updates status/evidence honestly. Once built and deployed, Plan Executor Tools enforce subsequent plans (e.g., Presentations-skill build).",
   "phases": {
     "0": {
       "name": "Git Setup",
-      "status": "PENDING",
+      "status": "PASS",
       "tasks": {
         "0.1": {
           "name": "Initialize git repo",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-21T22:12:36Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": ".git directory exists at project root",
               "type": "automated",
               "command": "test -d ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev/.git && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — .git directory present at project root (verified 2026-04-21T22:12:36Z)."
             },
             "2": {
               "check": "git status runs without error",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && git status > /dev/null 2>&1 && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — `git status` exits 0; working tree clean, branch main up-to-date with origin/main."
             }
           }
         },
         "0.2": {
           "name": "Create GitHub remote",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-21T22:12:36Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "origin remote is configured",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && git remote get-url origin > /dev/null 2>&1 && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — `git remote get-url origin` returns git@github.com:DAESA24/plan-executor-tools-dev.git."
             },
             "2": {
               "check": "Drew has authorized the GitHub remote URL and visibility",
               "type": "manual",
               "prompt": "Did you authorize the GitHub remote creation (gh repo create output or manual URL provided)? Which visibility (public/private)?",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "Drew confirmed via AskUserQuestion (2026-04-21T22:12:36Z): authorized creation, visibility is public."
             }
           }
         },
         "0.3": {
           "name": "Initial commit and push",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-21T22:12:36Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "At least one commit exists on HEAD",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && git rev-parse HEAD > /dev/null 2>&1 && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — HEAD=31fdb9bbc3111cced17ea65c7d846edfa72bab8b (docs(plan): phased implementation plan and validation state)."
             },
             "2": {
               "check": "Local is in sync with origin",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && git diff --quiet origin/main..HEAD 2>/dev/null && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — local main in sync with origin/main (0 diff between HEAD and origin/main)."
             },
             "3": {
               "check": "Working tree is clean",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && test -z \"$(git status --porcelain)\" && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — `git status --porcelain` produces no output; working tree clean."
             }
           }
         }
@@ -146,85 +146,85 @@
     },
     "2": {
       "name": "Requirements Document (BRD+FRD+TRD)",
-      "status": "PENDING",
+      "status": "PASS",
       "tasks": {
         "2.1": {
           "name": "Draft requirements document",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-21T22:12:36Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "docs/requirements.md exists",
               "type": "automated",
               "command": "test -f ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev/docs/requirements.md && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — docs/requirements.md authored 2026-04-21T22:12:36Z by orchestrator from design.md + decisions.md + PAI reference inputs (CLIFIRSTARCHITECTURE.md, TOOLS.md, THEHOOKSYSTEM.md)."
             },
             "2": {
               "check": "Contains Business Requirements section with ID'd entries",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && grep -qE '## Business Requirements' docs/requirements.md && grep -qE '^- BR-[0-9]+:' docs/requirements.md && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — '## Business Requirements' header present; 13 BR entries (BR-1 through BR-13) in '^- BR-N:' form."
             },
             "3": {
               "check": "Contains Functional Requirements section with ID'd entries",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && grep -qE '## Functional Requirements' docs/requirements.md && grep -qE '^- FR-[0-9]+\\.[0-9]+:' docs/requirements.md && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — '## Functional Requirements' header present; 100 FR entries across FR-1.* (StateManager), FR-2.* (CheckRunner), FR-3.* (PlanGate), FR-4.* (checksum), FR-5.* (observability) in '^- FR-N.N:' form."
             },
             "4": {
               "check": "Contains Technical Requirements section with ID'd entries",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && grep -qE '## Technical Requirements' docs/requirements.md && grep -qE '^- TR' docs/requirements.md && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — '## Technical Requirements' header present; 77 TR entries across TR-1 through TR-11 (deploy, settings, CLI conventions, exit codes, atomic write, hook contract, library layering, allow-list, docs, testing, runtime). Plus 12 AR entries in the Anti-Requirements section."
             }
           }
         },
         "2.2": {
           "name": "Harden requirements document (Architect/Opus)",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-21T22:12:36Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "docs/requirements-hardened.md exists",
               "type": "automated",
               "command": "test -f ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev/docs/requirements-hardened.md && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — produced by Architect/Opus subagent delegation (Phase 2.2). File at docs/requirements-hardened.md."
             },
             "2": {
               "check": "Hardened file differs substantively from draft (evidence of hardening pass)",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && diff docs/requirements.md docs/requirements-hardened.md | wc -l | awk '{ if ($1 > 10) print \"PASS\"; else print \"FAIL\" }'",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — 880-line diff between docs/requirements.md (13 BR / 100 FR / 77 TR / 12 AR) and docs/requirements-hardened.md (20 BR / 232 FR / 117 TR / 21 AR). Substantive Split / Added / Reworded / Renumbered / Moved changes per the Hardening changelog in the hardened file. Scope-change addition 2026-04-21 pulled pointer lifecycle (BR-20, FR-1.38-1.40, TR-5.8-5.9) from deferred into MVP."
             },
             "3": {
               "check": "Orchestrator has spot-checked diff and accepted/corrected Architect output",
               "type": "manual",
               "prompt": "Did you review the diff between requirements.md and requirements-hardened.md, confirm the hardening improved atomicity/testability, and accept or correct the output?",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "Drew confirmed via AskUserQuestion (2026-04-21T22:12:36Z; two-round review) — initial question about the ~/.claude/MEMORY/STATE/plan-executor.active.json pointer file led to a scope-change decision to pull pointer lifecycle FRs from deferred into MVP. After orchestrator added BR-20 + FR-1.38a-d + FR-1.39a-c + FR-1.40 + TR-5.8 + TR-5.9 to requirements-hardened.md, Drew marked PASS."
             }
           }
         },
         "2.3": {
           "name": "Drew approves hardened requirements",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-21T22:12:36Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "Drew has reviewed and approved requirements-hardened.md",
               "type": "manual",
               "prompt": "Have you reviewed docs/requirements-hardened.md and approved it as the authoritative requirements document for the Plan Executor MVP?",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "Drew approved via AskUserQuestion (2026-04-21T22:12:36Z) — hardened document including 2026-04-21 scope change (pointer lifecycle) is the authoritative requirements doc. Phase 3 (test plan) may proceed."
             }
           }
         }
@@ -232,56 +232,56 @@
     },
     "3": {
       "name": "Test Plan (Tier A + Tier B)",
-      "status": "PENDING",
+      "status": "PASS",
       "tasks": {
         "3.1": {
           "name": "Generate two-tier test plan (Engineer/Opus)",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-21T22:12:36Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "docs/test-plan.md exists",
               "type": "automated",
               "command": "test -f ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev/docs/test-plan.md && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — produced by Engineer/Opus subagent delegation (Phase 3.1). 1790 lines, 174 test entries (127 Tier A + 25 Tier B + 22 TN- negative tests)."
             },
             "2": {
               "check": "Test plan references FR and TR IDs (traceability)",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && grep -qE 'FR-[0-9]' docs/test-plan.md && grep -qE 'TR' docs/test-plan.md && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — every FR and TR ID from requirements-hardened.md is referenced in a test entry's Verifies field. Traceability via the Coverage matrix section."
             },
             "3": {
               "check": "Test plan has Tier A and Tier B sections (no Tier C — MVP is deterministic infrastructure)",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && grep -qE 'Tier A' docs/test-plan.md && grep -qE 'Tier B' docs/test-plan.md && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — Tier A and Tier B section headers present; Tier C explicitly forbidden by AR-21 with a dedicated negative test (TN-AR21-001) that guards against introducing LLM-judge dependencies or ## Tier C headings."
             },
             "4": {
               "check": "Orchestrator confirms every FR/TR has ≥1 test and every anti-criterion has ≥1 negative test",
               "type": "manual",
               "prompt": "Did you verify that every FR-X.X and TR-X.X in requirements-hardened.md has ≥1 test entry in test-plan.md, and every anti-criterion has ≥1 negative test?",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "Verified mechanically 2026-04-21T22:12:36Z. (a) Extracted 370 requirement IDs with colons from requirements-hardened.md (232 FR + 117 TR + 21 AR; excluding 20 BRs which don't require direct test mapping); confirmed via comm diff that every one is referenced in test-plan.md (zero missing). (b) Per-AR check confirmed AR-1 through AR-21 each have a dedicated TN-AR<N>-001 entry plus bonus TN-AR12-002 covering FR-3.4 pointer-stale fail-open distinctly from AR-12 no-plan fail-open. Drew confirmed PASS via AskUserQuestion."
             }
           }
         },
         "3.2": {
           "name": "Drew approves test plan",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-21T22:12:36Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "Drew has reviewed and approved test-plan.md",
               "type": "manual",
               "prompt": "Have you reviewed docs/test-plan.md and approved it? Tier A and Tier B coverage look right?",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "Drew approved via AskUserQuestion (2026-04-21T22:12:36Z). Authoritative test plan; Phase 3 complete; requested session stop point reached."
             }
           }
         }
