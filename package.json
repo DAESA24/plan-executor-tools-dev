@@ -1,0 +1,13 @@
+{
+  "name": "plan-executor-tools-dev",
+  "version": "0.1.0",
+  "description": "Plan Executor Tools — hook-enforced deterministic plan execution. The 3-component enforcement kernel of Architecture A: PlanGate hook + StateManager CLI + CheckRunner CLI.",
+  "scripts": {
+    "test": "bun test",
+    "test:watch": "bun test --watch",
+    "deploy": "echo 'TODO: copy hook to ~/.claude/hooks/ and register in settings.json; copy CLIs to ~/.claude/PAI/Tools/; append entries to ~/.claude/PAI/TOOLS.md'"
+  },
+  "devDependencies": {
+    "@types/bun": "latest"
+  }
+}
