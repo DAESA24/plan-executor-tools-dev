@@ -1,0 +1,39 @@
+{
+  "plan": "implementation-plan.md",
+  "project": "test-project",
+  "status": "IN_PROGRESS",
+  "plan_checksum": null,
+  "initialized": null,
+  "current_phase": 1,
+  "current_task": "1.1",
+  "phases": {
+    "1": {
+      "name": "Phase One",
+      "status": "PENDING",
+      "tasks": {
+        "1.1": {
+          "name": "Task with manual criterion",
+          "status": "PENDING",
+          "verified_at": null,
+          "fix_attempts": 0,
+          "criteria": {
+            "1": {
+              "check": "Automated gate",
+              "type": "automated",
+              "command": "echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            },
+            "2": {
+              "check": "Manual review",
+              "type": "manual",
+              "prompt": "Did you review the implementation?",
+              "status": "PENDING",
+              "evidence": ""
+            }
+          }
+        }
+      }
+    }
+  }
+}

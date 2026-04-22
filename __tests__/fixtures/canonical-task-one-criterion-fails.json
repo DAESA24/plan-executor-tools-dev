@@ -1,0 +1,46 @@
+{
+  "plan": "implementation-plan.md",
+  "project": "test-project",
+  "status": "IN_PROGRESS",
+  "plan_checksum": null,
+  "initialized": null,
+  "current_phase": 1,
+  "current_task": "1.1",
+  "phases": {
+    "1": {
+      "name": "Phase One",
+      "status": "PENDING",
+      "tasks": {
+        "1.1": {
+          "name": "Task where one criterion fails",
+          "status": "PENDING",
+          "verified_at": null,
+          "fix_attempts": 0,
+          "criteria": {
+            "1": {
+              "check": "Criterion that passes",
+              "type": "automated",
+              "command": "echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            },
+            "2": {
+              "check": "Criterion that fails",
+              "type": "automated",
+              "command": "exit 1",
+              "status": "PENDING",
+              "evidence": ""
+            },
+            "3": {
+              "check": "Criterion that passes",
+              "type": "automated",
+              "command": "echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -5,7 +5,7 @@
   "plan_checksum": null,
   "initialized": null,
   "current_phase": 4,
-  "current_task": "4.3",
+  "current_task": "5.2",
   "notes": "Plan authored 2026-04-21. Phase 1 (scaffold) pre-marked PASS based on session N work. Project was originally scaffolded as 'plan-executor-mvp-skill-dev' under skills-dev/; renamed and moved to 'plan-executor-tools-dev' under tools-dev/ later the same day to correctly reflect its CLI-First tools nature (no skill wrapper per D1). Execution runs under MANUAL DISCIPLINE — this project cannot enforce its own construction (chicken-and-egg). Orchestrator manually reads this file, runs criteria, and updates status/evidence honestly. Once built and deployed, Plan Executor Tools enforce subsequent plans (e.g., Presentations-skill build).",
   "phases": {
     "0": {
@@ -379,30 +379,30 @@
       "tasks": {
         "5.1": {
           "name": "Write failing Tier A unit tests for CheckRunner.ts",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-22T22:55:47.868Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "__tests__/CheckRunner.test.ts exists",
               "type": "automated",
               "command": "test -f ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev/__tests__/CheckRunner.test.ts && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "test -f __tests__/CheckRunner.test.ts → PASS (aggregator + 10 nested files)"
             },
             "2": {
               "check": "Test file runs and currently FAILS (red phase)",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && bun test __tests__/CheckRunner.test.ts > /dev/null 2>&1 && echo FAIL || echo PASS",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "bun test __tests__/CheckRunner.test.ts → 2 pass / 29 fail / 31 tests (honest red phase; the 2 passes are TA-CheckRunner-005 testing exported constants DEFAULT_TIMEOUT_MS/TIMEOUT_ENV_VAR/getDefaultTimeoutMs, and TA-CheckRunner-031 static source-structure check — both legitimately stub-satisfiable). Orchestrator-direct 2026-04-22."
             },
             "3": {
               "check": "Test coverage maps to CheckRunner-related FR/TR entries in test-plan.md",
               "type": "manual",
               "prompt": "Did you verify that each test case in CheckRunner.test.ts maps to a specific FR-X.X or TR-X.X from test-plan.md?",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "Each of the 31 test descriptions includes inline FR-X.X / TR-X.X IDs from requirements-hardened.md and traces back to test-plan.md §3.2 TA-CheckRunner-001 through -031. Verified during authoring."
             }
           }
         },
