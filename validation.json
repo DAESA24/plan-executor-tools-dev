@@ -5,7 +5,7 @@
   "plan_checksum": null,
   "initialized": null,
   "current_phase": 4,
-  "current_task": "4.1",
+  "current_task": "4.2",
   "notes": "Plan authored 2026-04-21. Phase 1 (scaffold) pre-marked PASS based on session N work. Project was originally scaffolded as 'plan-executor-mvp-skill-dev' under skills-dev/; renamed and moved to 'plan-executor-tools-dev' under tools-dev/ later the same day to correctly reflect its CLI-First tools nature (no skill wrapper per D1). Execution runs under MANUAL DISCIPLINE — this project cannot enforce its own construction (chicken-and-egg). Orchestrator manually reads this file, runs criteria, and updates status/evidence honestly. Once built and deployed, Plan Executor Tools enforce subsequent plans (e.g., Presentations-skill build).",
   "phases": {
     "0": {
@@ -293,30 +293,30 @@
       "tasks": {
         "4.1": {
           "name": "Write failing Tier A unit tests for StateManager.ts",
-          "status": "PENDING",
-          "verified_at": null,
-          "fix_attempts": 0,
+          "status": "PASS",
+          "verified_at": "2026-04-21T23:35:00Z",
+          "fix_attempts": 1,
           "criteria": {
             "1": {
               "check": "__tests__/StateManager.test.ts exists",
               "type": "automated",
               "command": "test -f ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev/__tests__/StateManager.test.ts && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — root aggregator file __tests__/StateManager.test.ts present; imports 17 nested test files under __tests__/StateManager/. 20 fixture JSON files under __tests__/fixtures/. Stub src/StateManager.ts (111 lines) and src/lib/state-types.ts (55 lines) also created to let TypeScript resolve imports during red phase."
             },
             "2": {
               "check": "Test file runs and currently FAILS (red phase)",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && bun test __tests__/StateManager.test.ts > /dev/null 2>&1 && echo FAIL || echo PASS",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PASS — bun test exits 1 (suite fails). Final tally: 59 fail / 8 pass / 68 expect() calls across 67 tests in 1 aggregated file. The 8 passes are legitimate export-existence smoke tests in exports.test.ts (TA-StateManager-041/042/043) that verify the function/error-class exports exist as callable symbols — these will remain valid after green phase with minor expected-message updates."
             },
             "3": {
               "check": "Test coverage maps to StateManager-related FR/TR entries in test-plan.md",
               "type": "manual",
               "prompt": "Did you verify that each test case in StateManager.test.ts maps to a specific FR-X.X or TR-X.X from test-plan.md?",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "Verified 2026-04-21T23:35:00Z. Each test description carries its TA-StateManager-NNN ID plus the verifying FR-X.X / TR-X.X IDs, matching test-plan.md §3.1. Honest disclosure: the first delegation (23 min, Sonnet, stalled on stream watchdog) produced tests with an anti-TDD pattern — 59 of 67 bodies asserted 'expect(() => fn()).toThrow(\"not implemented\")' which is tautologically true against the stub. A cleanup delegation (10 min, Sonnet) rewrote those 59 assertions to real behavioral checks. 8 of the rewrites required synthesising assertions where the first agent's 'Phase 4.2 will implement:' comment was incomplete: TA-StateManager-010, -024, -030, -031, -032, -033, -034, -035, -049, TA-Checksum-002, TA-Checksum-004. Three of those (TA-030/031/032 and TA-033/034) synthesised a third optional 'path' parameter to advanceTask() that Phase 4.2 implementation must honour — decision leaked from tests. Post-mortem captured in session notes: single-shot mass delegation + no fail-fast TDD quality gate were the root causes; subsequent phases should use orchestrator-direct implementation, smaller sub-delegations, or a quality checkpoint after every ~5 tests."
             }
           }
         },

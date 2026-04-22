@@ -1,0 +1,75 @@
+{
+  "plan": "implementation-plan.md",
+  "project": "test-project",
+  "status": "IN_PROGRESS",
+  "plan_checksum": "sha256:placeholder_checksum_will_be_replaced_by_actual_init",
+  "initialized": "2026-04-21T14:00:00.000Z",
+  "current_phase": 2,
+  "current_task": "2.2",
+  "phases": {
+    "1": {
+      "name": "Phase One",
+      "status": "PASS",
+      "tasks": {
+        "1.1": {
+          "name": "Task 1.1",
+          "status": "PASS",
+          "verified_at": "2026-04-21T15:00:00.000Z",
+          "fix_attempts": 0,
+          "criteria": {
+            "1": {
+              "check": "Criterion 1.1.1",
+              "type": "automated",
+              "command": "echo PASS",
+              "status": "PASS",
+              "evidence": "PASS"
+            }
+          }
+        }
+      }
+    },
+    "2": {
+      "name": "Phase Two",
+      "status": "IN_PROGRESS",
+      "tasks": {
+        "2.1": {
+          "name": "Task 2.1",
+          "status": "PASS",
+          "verified_at": "2026-04-21T15:30:00.000Z",
+          "fix_attempts": 0,
+          "criteria": {
+            "1": {
+              "check": "Criterion 2.1.1",
+              "type": "automated",
+              "command": "echo PASS",
+              "status": "PASS",
+              "evidence": "PASS"
+            }
+          }
+        },
+        "2.2": {
+          "name": "Task 2.2",
+          "status": "IN_PROGRESS",
+          "verified_at": null,
+          "fix_attempts": 0,
+          "criteria": {
+            "1": {
+              "check": "Criterion 2.2.1",
+              "type": "automated",
+              "command": "echo PASS",
+              "status": "PASS",
+              "evidence": "PASS"
+            },
+            "2": {
+              "check": "Criterion 2.2.2",
+              "type": "automated",
+              "command": "echo PASS",
+              "status": "PASS",
+              "evidence": "PASS"
+            }
+          }
+        }
+      }
+    }
+  }
+}

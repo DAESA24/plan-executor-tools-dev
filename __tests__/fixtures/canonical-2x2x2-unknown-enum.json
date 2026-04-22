@@ -1,0 +1,39 @@
+{
+  "plan": "implementation-plan.md",
+  "project": "test-project",
+  "status": "IN_PROGRESS",
+  "plan_checksum": null,
+  "initialized": null,
+  "current_phase": 1,
+  "current_task": "1.1",
+  "phases": {
+    "1": {
+      "name": "Phase One",
+      "status": "PENDING",
+      "tasks": {
+        "1.1": {
+          "name": "Task 1.1",
+          "status": "PENDING",
+          "verified_at": null,
+          "fix_attempts": 0,
+          "criteria": {
+            "1": {
+              "check": "Criterion 1.1.1",
+              "type": "automated",
+              "command": "echo PASS",
+              "status": "SKIPPED",
+              "evidence": ""
+            },
+            "2": {
+              "check": "Criterion 1.1.2",
+              "type": "automated",
+              "command": "echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            }
+          }
+        }
+      }
+    }
+  }
+}
