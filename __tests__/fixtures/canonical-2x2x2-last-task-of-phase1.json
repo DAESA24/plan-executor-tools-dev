@@ -2,7 +2,7 @@
   "plan": "implementation-plan.md",
   "project": "test-project",
   "status": "IN_PROGRESS",
-  "plan_checksum": "sha256:placeholder_checksum_will_be_replaced_by_actual_init",
+  "plan_checksum": "sha256:0ba63bad4d2ad91aac86b719e9e478f9fb59efa87b2c120076e8ea3d3f838199",
   "initialized": "2026-04-21T14:00:00.000Z",
   "current_phase": 1,
   "current_task": "1.2",

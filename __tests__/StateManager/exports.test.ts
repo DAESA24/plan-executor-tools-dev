@@ -38,16 +38,19 @@ describe('StateManager exports', () => {
     expect(typeof advanceTask).toBe('function');
     expect(typeof findCurrentCriterion).toBe('function');
 
-    // Verify each throws "not implemented" (stub behavior — red phase)
-    expect(() => readState('/nonexistent')).toThrow('not implemented');
-    expect(() => writeState('/nonexistent', {} as ValidationState)).toThrow('not implemented');
-    expect(() => initState('/nonexistent')).toThrow('not implemented');
-    expect(() => computePlanChecksum({} as ValidationState)).toThrow('not implemented');
-    expect(() => updateCriterion({} as ValidationState, '', '', 'PASS', '')).toThrow(
-      'not implemented'
-    );
-    expect(() => advanceTask({} as ValidationState, '')).toThrow('not implemented');
-    expect(() => findCurrentCriterion({} as ValidationState)).toThrow('not implemented');
+    // Verify each function rejects invalid input with a thrown error (green phase).
+    // The specific error varies by function — here we only assert they fail fast
+    // rather than silently returning a garbage result.
+    expect(() => readState('/nonexistent')).toThrow();
+    expect(() => initState('/nonexistent')).toThrow();
+    expect(() => updateCriterion({ phases: {} } as unknown as ValidationState, 'x', 'y', 'PASS', '')).toThrow();
+    expect(() => advanceTask({ phases: {} } as unknown as ValidationState, 'x')).toThrow();
+    // computePlanChecksum is pure and total — an empty state produces an empty projection hash.
+    expect(typeof computePlanChecksum({ phases: {} } as unknown as ValidationState)).toBe('string');
+    // writeState requires a valid directory — a nonexistent parent path should fail.
+    expect(() => writeState('/nonexistent/dir/path.json', { phases: {} } as unknown as ValidationState)).toThrow();
+    // findCurrentCriterion on an empty state throws TargetNotFoundError (no current_task resolves).
+    expect(() => findCurrentCriterion({ phases: {}, current_phase: 0, current_task: 'x' } as unknown as ValidationState)).toThrow();
   });
 
   test('TA-StateManager-042: StateManager exports StateManagerError and 5 subclasses all extending StateManagerError via instanceof (FR-1.28h, FR-1.28i)', () => {
