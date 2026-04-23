@@ -22,9 +22,20 @@ Plan Executor Tools implement the enforcement-kernel subset of that architecture
 
 ## Status
 
-**Phase:** Scaffolded (2026-04-21). Implementation plan, validation.json, design doc, and decision log all authored. Ready for first execution session.
+**v0.1 — COMPLETE (2026-04-23).** The three-component enforcement kernel is built, tested, deployed, and live. Drew signed off on Task 8.6 after the smoke test passed end-to-end.
 
-**Execution mode:** This project cannot enforce its own construction (chicken-and-egg). The build session runs under MANUAL DISCIPLINE — orchestrator manually reads `validation.json`, runs criteria, updates status/evidence. Once these tools are built, deployed, and registered, every subsequent Claude Code session has hook enforcement live for plan-execution work.
+Deployed artifacts:
+- `~/.claude/PAI/Tools/StateManager.ts` (bundled)
+- `~/.claude/PAI/Tools/CheckRunner.ts` (bundled)
+- `~/.claude/hooks/PlanGate.hook.ts` (bundled, handler inlined)
+- Registered in `~/.claude/settings.json` after `SecurityValidator` on the `Bash`, `Edit`, and `Write` PreToolUse matchers
+- Documented in `~/.claude/PAI/TOOLS.md`
+
+Test suite: 126/126 pass (67 StateManager + 33 CheckRunner + 23 PlanGate + 3 integration). Full user-facing reference in [docs/](docs/).
+
+**Archive:** the v0.1 implementation plan and final `validation.json` live at [`plans/archive/2026-04-23-plan-executor-tools-v0.1/`](plans/archive/2026-04-23-plan-executor-tools-v0.1/). Lifecycle convention for future builds: [docs/plan-workflow.md](docs/plan-workflow.md).
+
+**Execution mode for v0.1:** ran under MANUAL DISCIPLINE — the project couldn't enforce its own construction (chicken-and-egg). From the next session onward, every Claude Code session has hook enforcement live for plan-execution work.
 
 ## Why a Subset Instead of Full Architecture A
 

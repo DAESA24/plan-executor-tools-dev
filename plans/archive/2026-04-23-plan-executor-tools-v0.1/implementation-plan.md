@@ -1,13 +1,15 @@
 ---
-Status: Draft (awaiting Drew review)
+Status: COMPLETE — all phases PASS, Drew signed off 2026-04-23
 Created: 2026-04-21
+Completed: 2026-04-23
 Owner: Drew Arnold
+Archive slug: 2026-04-23-plan-executor-tools-v0.1
 Related:
   - docs/design.md — detailed design (CLI specs, schema, hook contract, plan-checksum, anti-patterns)
-  - docs/decisions.md — binding architectural decisions D1–D12 referenced in design.md and this plan
+  - docs/decisions.md — binding architectural decisions D1–D13 referenced in design.md and this plan
   - README.md — project summary
   - ~/projects/dev/dev-tools/projects/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md — parent architectural spec
-Enforcement: MANUAL DISCIPLINE (this project cannot enforce its own construction — chicken-and-egg)
+Enforcement: MANUAL DISCIPLINE (this project could not enforce its own construction — chicken-and-egg). From v0.1 onward, subsequent projects run under live PlanGate enforcement.
 ---
 
 # Plan Executor Tools — Implementation Plan
