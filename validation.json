@@ -5,7 +5,7 @@
   "plan_checksum": null,
   "initialized": null,
   "current_phase": 4,
-  "current_task": "6.2",
+  "current_task": "7.1",
   "notes": "Plan authored 2026-04-21. Phase 1 (scaffold) pre-marked PASS based on session N work. Project was originally scaffolded as 'plan-executor-mvp-skill-dev' under skills-dev/; renamed and moved to 'plan-executor-tools-dev' under tools-dev/ later the same day to correctly reflect its CLI-First tools nature (no skill wrapper per D1). Execution runs under MANUAL DISCIPLINE — this project cannot enforce its own construction (chicken-and-egg). Orchestrator manually reads this file, runs criteria, and updates status/evidence honestly. Once built and deployed, Plan Executor Tools enforce subsequent plans (e.g., Presentations-skill build).",
   "phases": {
     "0": {
@@ -494,44 +494,44 @@
         },
         "6.2": {
           "name": "Implement PlanGate.hook.ts to green",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-23T16:35:52.753Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "src/PlanGate.hook.ts exists (thin wrapper)",
               "type": "automated",
               "command": "test -f ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev/src/PlanGate.hook.ts && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "src/PlanGate.hook.ts exists (27 LOC thin wrapper, delegates to PlanGateHandler.decide)"
             },
             "2": {
               "check": "src/handlers/PlanGateHandler.ts exists (handler-delegate per D3)",
               "type": "automated",
               "command": "test -f ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev/src/handlers/PlanGateHandler.ts && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "src/handlers/PlanGateHandler.ts exists (295 LOC pure decide() with D3 handler-delegate pattern)"
             },
             "3": {
               "check": "Tier A tests for PlanGate all PASS (green phase)",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && bun test __tests__/PlanGate.test.ts > /dev/null 2>&1 && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "bun test __tests__/PlanGate.test.ts → 23 pass / 0 fail / 105 expect() calls in 50ms (green first run). Full suite: 121 pass / 0 fail / 405 expect in 467ms — all three components now landed. Orchestrator-direct 2026-04-23."
             },
             "4": {
               "check": "hook-types.ts exists and is imported by PlanGate.hook.ts or PlanGateHandler.ts (D13)",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && test -f src/lib/hook-types.ts && (grep -q 'hook-types' src/PlanGate.hook.ts || grep -q 'hook-types' src/handlers/PlanGateHandler.ts) && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "src/lib/hook-types.ts present; imported by PlanGateHandler.ts (PreToolUseHookInput, DecisionResult, ReasonCode, ToolName) and by PlanGate.hook.ts (PreToolUseHookInput). D13 types-runtime separation maintained."
             },
             "5": {
               "check": "PlanGate uses readHookInput from PAI's shipped hook-io.ts (design §9.1)",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && grep -q 'readHookInput' src/PlanGate.hook.ts && grep -q 'hook-io' src/PlanGate.hook.ts && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "src/PlanGate.hook.ts: import { readHookInput } from \"./lib/hook-io\". At deploy time the bundler swaps ./lib/hook-io for PAI-shipped ~/.claude/hooks/lib/hook-io (design §9.1). Dev-time shim provides the same API for local tests."
             }
           }
         },
