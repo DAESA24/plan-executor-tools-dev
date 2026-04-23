@@ -1,0 +1,32 @@
+{
+  "plan": "implementation-plan.md",
+  "project": "pg-test",
+  "status": "IN_PROGRESS",
+  "plan_checksum": null,
+  "initialized": null,
+  "current_phase": 1,
+  "current_task": "1.1",
+  "phases": {
+    "1": {
+      "name": "Phase One",
+      "status": "IN_PROGRESS",
+      "tasks": {
+        "1.1": {
+          "name": "Draft requirements document",
+          "status": "PASS",
+          "verified_at": "2026-04-22T00:00:00.000Z",
+          "fix_attempts": 0,
+          "criteria": {
+            "1": {
+              "check": "criterion",
+              "type": "automated",
+              "command": "echo PASS",
+              "status": "PASS",
+              "evidence": "PASS"
+            }
+          }
+        }
+      }
+    }
+  }
+}

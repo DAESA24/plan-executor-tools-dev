@@ -5,7 +5,7 @@
   "plan_checksum": null,
   "initialized": null,
   "current_phase": 4,
-  "current_task": "5.3",
+  "current_task": "6.2",
   "notes": "Plan authored 2026-04-21. Phase 1 (scaffold) pre-marked PASS based on session N work. Project was originally scaffolded as 'plan-executor-mvp-skill-dev' under skills-dev/; renamed and moved to 'plan-executor-tools-dev' under tools-dev/ later the same day to correctly reflect its CLI-First tools nature (no skill wrapper per D1). Execution runs under MANUAL DISCIPLINE — this project cannot enforce its own construction (chicken-and-egg). Orchestrator manually reads this file, runs criteria, and updates status/evidence honestly. Once built and deployed, Plan Executor Tools enforce subsequent plans (e.g., Presentations-skill build).",
   "phases": {
     "0": {
@@ -465,30 +465,30 @@
       "tasks": {
         "6.1": {
           "name": "Write failing Tier A unit tests for PlanGate.hook.ts",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-23T15:28:16.269Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "__tests__/PlanGate.test.ts exists",
               "type": "automated",
               "command": "test -f ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev/__tests__/PlanGate.test.ts && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "test -f __tests__/PlanGate.test.ts → PASS (aggregator + 12 nested files across PlanGate/ and PlanGateHandler/)"
             },
             "2": {
               "check": "Test file runs and currently FAILS (red phase)",
               "type": "automated",
               "command": "cd ~/projects/dev/dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev && bun test __tests__/PlanGate.test.ts > /dev/null 2>&1 && echo FAIL || echo PASS",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "bun test __tests__/PlanGate.test.ts → 3 pass / 20 fail / 23 tests (honest red phase). The 3 passes are TA-PlanGate-002 (wrapper matcher routing AST check), TA-PlanGate-003 (readHookInput import AST check), TA-PlanGate-015 (no non-zero process.exit calls in wrapper) — all legitimately stub-satisfiable structural checks. Full suite regression: 101 pass / 20 fail / 314 expect in 438ms (67 StateManager + 31 CheckRunner + 3 PlanGate all green-or-legit). Orchestrator-direct 2026-04-23."
             },
             "3": {
               "check": "Test coverage maps to PlanGate-related FR/TR entries in test-plan.md",
               "type": "manual",
               "prompt": "Did you verify that each test case in PlanGate.test.ts maps to a specific FR-X.X or TR-X.X from test-plan.md (including allow-list per D2, permissionDecision schema per §7.5, and fail-open semantics)?",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "Every test description includes inline FR-X.X / TR-X.X IDs (FR-3.1 through FR-3.26, FR-5.5, FR-5.6, FR-5.17, TR-6.*, TR-8.*, TR-10.3). Decision-table test parameterises the 24-row condensed matrix from test-plan.md §3.3 exactly. Allow-list tests (TA-018-023) cover D2 (realpath match + existence check), envelope tests (TA-007-009) cover §7.5 permissionDecision schema, pointer tests (TA-004-006) cover §7.3 fail-open semantics. Verified during authoring."
             }
           }
         },
