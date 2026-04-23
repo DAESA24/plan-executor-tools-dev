@@ -1,0 +1,32 @@
+{
+  "plan": "implementation-plan.md",
+  "project": "integration-test",
+  "status": "IN_PROGRESS",
+  "plan_checksum": null,
+  "initialized": null,
+  "current_phase": 1,
+  "current_task": "1.1",
+  "phases": {
+    "1": {
+      "name": "Phase One",
+      "status": "PENDING",
+      "tasks": {
+        "1.1": {
+          "name": "Integration task",
+          "status": "PENDING",
+          "verified_at": null,
+          "fix_attempts": 0,
+          "criteria": {
+            "1": {
+              "check": "Marker file exists",
+              "type": "automated",
+              "command": "test -f MARKER_PLACEHOLDER && echo PASS || echo FAIL",
+              "status": "PENDING",
+              "evidence": ""
+            }
+          }
+        }
+      }
+    }
+  }
+}
