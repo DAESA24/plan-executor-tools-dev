@@ -83,9 +83,10 @@ describe('PlanGateHandler edge cases', () => {
 
     // The wrapper's failure path must not emit a block envelope on its own.
     // It may log to stderr but must not write hookSpecificOutput JSON to stdout.
-    // Structural check: the catch block (if present) should not contain a
-    // literal "permissionDecision" or "hookSpecificOutput" emission.
-    const catchBlock = wrapperSrc.match(/catch[\s\S]*$/);
+    // Structural check: the ACTUAL catch block body (matched via `catch {` or
+    // `catch (x) {` syntax — not the word "catch" in prose) must not contain
+    // a literal "permissionDecision" or "hookSpecificOutput" emission.
+    const catchBlock = wrapperSrc.match(/\bcatch\s*(?:\([^)]*\)\s*)?\{[\s\S]*$/);
     if (catchBlock) {
       expect(catchBlock[0]).not.toMatch(/permissionDecision/);
       expect(catchBlock[0]).not.toMatch(/hookSpecificOutput/);

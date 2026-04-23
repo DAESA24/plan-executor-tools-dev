@@ -1,6 +1,146 @@
 #!/usr/bin/env bun
-// StateManager.ts — validation.json lifecycle manager.
-// Pure transforms + atomic read/write + CLI. D1, D6-D11, D13.
+/*!
+ * StateManager.ts — Plan Executor Tools: validation.json lifecycle manager
+ *
+ * PURPOSE:
+ * Sole writer and reader of validation.json — the deterministic state file
+ * that backs the Plan Executor Tools' enforcement kernel. Every mutation
+ * goes through this tool (CLI or programmatic API) so plan state cannot
+ * be silently corrupted by hand-editing or concurrent-write races.
+ *
+ * ROLE IN THE ENFORCEMENT KERNEL:
+ * This file is 1 of 3 deployed components that together enforce plan
+ * execution discipline:
+ *   - StateManager.ts   — THIS FILE. State lifecycle, CLI + API.
+ *   - CheckRunner.ts    — Evaluates criteria, calls StateManager.
+ *   - PlanGate.hook.ts  — PreToolUse hook, reads state, blocks writes.
+ *
+ * All three share the validation.json schema, the plan_checksum algorithm
+ * (D8), the project-local event log at <projectRoot>/.plan-executor/
+ * events.jsonl (D5), and the active-plan pointer at
+ *   $HOME/.claude/MEMORY/STATE/plan-executor.active.json.
+ *
+ * validation.json SCHEMA (simplified):
+ *   {
+ *     "plan": "implementation-plan.md",
+ *     "project": "my-project",
+ *     "status": "IN_PROGRESS" | "COMPLETED" | "ABANDONED",
+ *     "plan_checksum": "sha256:…" | null,   // set by `init`; validated on read
+ *     "initialized": "<ISO-8601>" | null,   // set by `init`
+ *     "current_phase": <number>,            // e.g. 2
+ *     "current_task": "<dotted-id>",        // e.g. "2.1"
+ *     "phases": {
+ *       "<phaseId>": {
+ *         "name": "...",
+ *         "status": "PENDING" | "IN_PROGRESS" | "PASS" | "BLOCKED",
+ *         "tasks": {
+ *           "<taskId>": {
+ *             "name": "...",
+ *             "status": "PENDING" | "IN_PROGRESS" | "PASS" | "FAIL" | "BLOCKED",
+ *             "verified_at": "<ISO-8601>" | null,
+ *             "fix_attempts": <int>,
+ *             "criteria": {
+ *               "<critId>": {
+ *                 "check":    "short human description",
+ *                 "type":     "automated" | "manual",
+ *                 "command":  "<bash -c command>",   // automated only
+ *                 "prompt":   "<question to Drew>",  // manual only
+ *                 "status":   "PENDING" | "PASS" | "FAIL",
+ *                 "evidence": "<captured stdout or answer>"
+ *               }
+ *             }
+ *           }
+ *         }
+ *       }
+ *     }
+ *   }
+ *
+ * Unknown top-level, phase, task, or criterion fields are preserved
+ * through the read → merge → write cycle (D11 schema forward-compat).
+ *
+ * USAGE:
+ *   # Initialise a hand-authored validation.json (one-time per plan).
+ *   bun ~/.claude/PAI/Tools/StateManager.ts init --path ./validation.json
+ *
+ *   # Read state (pretty-printed or targeted).
+ *   bun ~/.claude/PAI/Tools/StateManager.ts read  --path ./validation.json
+ *   bun ~/.claude/PAI/Tools/StateManager.ts read  --task 2.1 --path ./validation.json
+ *   bun ~/.claude/PAI/Tools/StateManager.ts read  --phase 2  --path ./validation.json
+ *   bun ~/.claude/PAI/Tools/StateManager.ts read  --criterion 2.1:3 --path ./validation.json
+ *
+ *   # Record a criterion result (CheckRunner calls this internally; use
+ *   # by hand only for recovery).
+ *   bun ~/.claude/PAI/Tools/StateManager.ts update-criterion \
+ *     --task 2.1 --criterion 3 --status PASS --evidence "PASS" \
+ *     --path ./validation.json
+ *
+ *   # Advance the task to PASS (only works when every criterion is PASS).
+ *   bun ~/.claude/PAI/Tools/StateManager.ts advance-task --task 2.1 \
+ *     --path ./validation.json
+ *
+ *   # Human-oriented dump with ✓/✗/… icons.
+ *   bun ~/.claude/PAI/Tools/StateManager.ts show --path ./validation.json
+ *
+ *   # Schema check (no mutation) + plan_checksum recompute (no mutation).
+ *   bun ~/.claude/PAI/Tools/StateManager.ts validate --path ./validation.json
+ *   bun ~/.claude/PAI/Tools/StateManager.ts checksum --path ./validation.json
+ *
+ * GLOBAL FLAGS:
+ *   --path <file>   State file path (default: ./validation.json)
+ *   --json          Machine-readable JSON output
+ *   --verbose       Extra diagnostics
+ *   --help, -h      Usage
+ *
+ * EXIT CODES:
+ *   0  Success
+ *   1  User error / precondition violation
+ *      (e.g. advance-task when one or more criteria are not PASS)
+ *   2  System error (I/O, malformed JSON, schema missing required fields)
+ *   3  plan_checksum mismatch — the criteria structure was changed
+ *      without going through StateManager. Treat as tampering; restore
+ *      from git or re-init.
+ *
+ * PROGRAMMATIC API (imported by CheckRunner and tests):
+ *   import {
+ *     readState, writeState, initState,
+ *     updateCriterion, advanceTask, findCurrentCriterion,
+ *     computePlanChecksum,
+ *     SchemaError, ChecksumError, TargetNotFoundError,
+ *     PreconditionError, IOError,
+ *   } from './StateManager';
+ *
+ *   const state = readState('./validation.json');        // throws ChecksumError on drift
+ *   const next  = updateCriterion(state, '2.1', '3', 'PASS', 'PASS');
+ *   writeState('./validation.json', next);               // atomic
+ *
+ * KEY BEHAVIORS:
+ *   - ATOMIC WRITE (D9): temp file in same directory, fsync, rename.
+ *     No file locking. Single-writer discipline (one current_task) means
+ *     the current design cannot race; multi-task parallelism is a future
+ *     concern (see docs/decisions.md D9).
+ *   - PLAN CHECKSUM (D8): sha256 over JSON.stringify of the sorted
+ *     criteria projection — phase/task/criterion ids plus check/type/
+ *     command/prompt. Deliberately excludes status/evidence/fix_attempts/
+ *     verified_at (those are state, not structure). Prose plan edits
+ *     never invalidate the checksum; criterion edits always do.
+ *   - ACTIVE-PLAN POINTER: `init` writes a pointer at
+ *       $HOME/.claude/MEMORY/STATE/plan-executor.active.json
+ *     that PlanGate reads to decide whether any plan is currently
+ *     enforced. Plan completion (advance-task on the last task of the
+ *     last phase) deletes the pointer, which silences PlanGate until
+ *     the next `init`.
+ *   - EVENTS (D5): `advance-task` emits `plan.task.advanced` to
+ *     <projectRoot>/.plan-executor/events.jsonl with `from_task`,
+ *     `to_task`, and optional `phase_rolled` / `plan_completed` flags.
+ *     The emitter swallows IO errors silently — observability must
+ *     never break host code.
+ *   - DOTTED-NUMERIC SORT: task ids sort as 2.1 < 2.2 < 2.10 (not lex).
+ *   - FORWARD COMPAT (D11): unknown fields preserved through writes.
+ *
+ * SOURCE:
+ *   github.com/DAESA24/plan-executor-tools-dev — src/StateManager.ts
+ *   (bundled via `bun build --target=bun` with lib imports inlined).
+ */
 
 import { createHash } from 'crypto';
 import {

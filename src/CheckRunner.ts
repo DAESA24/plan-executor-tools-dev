@@ -1,5 +1,121 @@
 #!/usr/bin/env bun
-// CheckRunner.ts — Per-task criterion evaluator. Design.md §6.
+/*!
+ * CheckRunner.ts — Plan Executor Tools: per-task criterion evaluator
+ *
+ * PURPOSE:
+ * Evaluates every PENDING or FAIL criterion of a target task, records
+ * each result via StateManager, and auto-advances the task when all
+ * criteria PASS. This is the tool the orchestrator invokes after making
+ * changes — running CheckRunner is what unblocks the PlanGate hook.
+ *
+ * ROLE IN THE ENFORCEMENT KERNEL:
+ * This file is 2 of 3 deployed components:
+ *   - StateManager.ts   — State lifecycle, CLI + API.
+ *   - CheckRunner.ts    — THIS FILE. Criterion evaluator.
+ *   - PlanGate.hook.ts  — PreToolUse hook.
+ *
+ * CheckRunner imports StateManager's programmatic API directly (in the
+ * same Bun process — no subprocess overhead). At deploy time, both are
+ * bundled to self-contained files under ~/.claude/PAI/Tools/.
+ *
+ * HOW CRITERIA EVALUATE:
+ *   automated criterion:
+ *     1. Spawn `bash -c "<command>"` (30 s default timeout, overridable
+ *        via CHECKRUNNER_TIMEOUT_MS env var).
+ *     2. Capture stdout, stderr, exit code.
+ *     3. PASS iff: the LAST non-empty stdout line is exactly "PASS"
+ *        AND exit code is 0 (both conjuncts required).
+ *     4. FAIL otherwise. Evidence is "exit_code=N\nstdout=…\nstderr=…".
+ *     5. Timeout → FAIL with evidence "TIMEOUT after <N>ms".
+ *
+ *   manual criterion (two strategies):
+ *     --manual-prompt-strategy stdin (default):
+ *       Print "MANUAL: <prompt>" to stdout, read one line from stdin.
+ *       Empty line → FAIL with evidence "no answer provided".
+ *       Non-empty → PASS with trimmed line as evidence.
+ *     --manual-prompt-strategy askuser:
+ *       Emit a structured payload to stderr, exit 4. Orchestrator calls
+ *       AskUserQuestion, captures Drew's response, re-invokes CheckRunner
+ *       with --answer "<response>" to supply the answer and continue.
+ *       One round-trip per manual criterion.
+ *
+ *   --answer <text> shortcut:
+ *     Under EITHER strategy, --answer supplies the answer for the NEXT
+ *     pending manual criterion without prompting. Useful for scripted
+ *     runs and for resuming after an askuser exit-4.
+ *
+ * RE-RUN SEMANTICS (red → green cycle):
+ *   On re-invocation, criteria with status PENDING or FAIL are
+ *   RE-EVALUATED. PASS criteria are SKIPPED (idempotent). This is what
+ *   enables the typical "criterion FAIL → fix the code → re-run
+ *   CheckRunner → same criterion now PASSes → task advances" workflow.
+ *
+ * USAGE:
+ *   # Run current task's criteria (what you normally do)
+ *   bun ~/.claude/PAI/Tools/CheckRunner.ts run --path ./validation.json
+ *
+ *   # Run a specific task (for retries after a fix)
+ *   bun ~/.claude/PAI/Tools/CheckRunner.ts run --task 2.1 --path ./validation.json
+ *
+ *   # Evaluate without writing state (dry run)
+ *   bun ~/.claude/PAI/Tools/CheckRunner.ts run --task 2.1 --dry-run \
+ *     --path ./validation.json
+ *
+ *   # Machine-readable output (JSON object on stdout)
+ *   bun ~/.claude/PAI/Tools/CheckRunner.ts run --task 2.1 --json \
+ *     --path ./validation.json
+ *
+ *   # Manual-criterion askuser flow
+ *   bun ~/.claude/PAI/Tools/CheckRunner.ts run --task 2.2 \
+ *     --manual-prompt-strategy askuser --path ./validation.json
+ *   # → exits 4 with structured stderr; orchestrator handles AskUserQuestion,
+ *   # then re-invokes with --answer:
+ *   bun ~/.claude/PAI/Tools/CheckRunner.ts run --task 2.2 \
+ *     --manual-prompt-strategy askuser --answer "Yes, reviewed and approved." \
+ *     --path ./validation.json
+ *
+ * FLAGS:
+ *   --path <file>                       State file path (required)
+ *   --task <id>                         Explicit task id (else state.current_task)
+ *   --dry-run                           Evaluate without writing state or events
+ *   --manual-prompt-strategy stdin|askuser
+ *                                       Manual-criterion UX (default: stdin)
+ *   --answer <text>                     Pre-supply answer for next manual criterion
+ *   --json                              Single-object JSON on stdout
+ *   --verbose                           Extra diagnostics
+ *   --help, -h                          Usage
+ *
+ * EXIT CODES:
+ *   0  All criteria PASS and task advanced successfully
+ *   1  One or more criteria FAILED (stderr lists which) — not a system
+ *      error; the task stayed IN_PROGRESS, fix_attempts was incremented
+ *   2  System error (StateManager write failure, malformed state, etc.)
+ *   3  plan_checksum mismatch detected on read
+ *   4  Manual criterion needs AskUserQuestion (askuser strategy).
+ *      Stderr contains a JSON payload with `exit_reason`, `task`,
+ *      `criterion`, `prompt`, `resume_command`. Re-invoke with --answer.
+ *
+ * EVENTS EMITTED (D5):
+ *   Per criterion → plan.criterion.passed OR plan.criterion.failed,
+ *     source="CheckRunner", with task/criterion/evidence_len
+ *     (or exit_code and evidence_snippet on FAIL).
+ *   On advance → plan.task.advanced is emitted by StateManager itself.
+ *   --dry-run emits NO events.
+ *
+ * KEY BEHAVIORS:
+ *   - Subprocess-free integration with StateManager: module import, not
+ *     subprocess spawn (TR-7.7). One bundled file at deploy; the
+ *     StateManager code is inlined inside CheckRunner at build time.
+ *   - Deterministic evaluation order: criteria sorted by dotted-numeric
+ *     id (1, 2, …, 10 — not lex 1, 10, 2).
+ *   - --json REPLACES prose stdout with a single JSON object so
+ *     orchestrator scripts can parse stdout directly.
+ *
+ * SOURCE:
+ *   github.com/DAESA24/plan-executor-tools-dev — src/CheckRunner.ts
+ *   (bundled via `bun build --target=bun` with StateManager + lib
+ *   imports inlined).
+ */
 
 import { spawnSync } from 'child_process';
 import { dirname, resolve } from 'path';

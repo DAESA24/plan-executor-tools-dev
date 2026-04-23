@@ -1,6 +1,20 @@
-// PlanGateHandler.ts — Pure decision logic for the PlanGate PreToolUse hook.
-// Per D3 handler-delegate pattern: no stdin reads, no process.exit, no side
-// effects beyond appendEvent. See design.md §7.
+/**
+ * PlanGateHandler.ts — Pure decision function for the PlanGate PreToolUse hook
+ *
+ * Per D3 handler-delegate pattern: decide() is pure with no stdin reads,
+ * no process.exit, no filesystem writes beyond appendEvent. The wrapper
+ * src/PlanGate.hook.ts handles I/O and inlines this file into the
+ * deployed ~/.claude/hooks/PlanGate.hook.ts at build time.
+ *
+ * See the wrapper's header comment for the full behavioural contract:
+ * active-plan discovery, decision precedence, allow-list semantics,
+ * block-envelope schema, event emission, and fail-open guarantees.
+ *
+ * Library dependencies (per D13 types-runtime separation):
+ *   - ../StateManager              readState, findCurrentCriterion, error classes
+ *   - ../lib/event-emitter         appendEvent
+ *   - ../lib/hook-types            PreToolUseHookInput, DecisionResult, ReasonCode
+ */
 
 import { existsSync, readFileSync, realpathSync } from 'fs';
 import { dirname, join, resolve } from 'path';
