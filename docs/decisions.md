@@ -1,13 +1,6 @@
 ---
-Status: Locked (binding during Plan Executor Tools execution)
-Created: 2026-04-21
-Owner: Drew Arnold
-Related:
-  - docs/design.md — detailed design that implements these decisions
-  - implementation-plan.md — phased build plan that executes under these decisions
-  - ~/projects/dev/dev-tools/projects/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md — parent architectural spec (Plan Executor Tools implement its enforcement-kernel subset)
-  - ~/.claude/MEMORY/WORK/20260421-mvp-design-doc-research/PRD.md — Algorithm PRD where these decisions were originally captured (with the THINK-phase FirstPrinciples decompositions that produced D1–D3)
-Supersedes: none
+status: locked
+updated: 2026-04-23
 ---
 
 # Plan Executor Tools — Decision Log

@@ -1,3 +1,8 @@
+---
+status: current
+updated: 2026-04-23
+---
+
 # Plan Executor Tools — Documentation
 
 User-facing reference for the three deployed components. For architecture and design decisions, see [design.md](design.md) and [decisions.md](decisions.md). For implementation plans (active and archived), see [`../plans/`](../plans/) — lifecycle convention in [plan-workflow.md](plan-workflow.md).

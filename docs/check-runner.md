@@ -1,3 +1,8 @@
+---
+status: current
+updated: 2026-04-23
+---
+
 # CheckRunner
 
 Per-task criterion evaluator. Given a task id (or the current task), evaluates each criterion, records results via StateManager, and auto-advances the task when every criterion PASSes. Running CheckRunner is what unblocks the PlanGate hook.

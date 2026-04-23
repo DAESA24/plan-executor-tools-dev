@@ -1,3 +1,8 @@
+---
+status: current
+updated: 2026-04-23
+---
+
 # Plan Executor Tools Dev
 
 Development project for **Plan Executor Tools** — the hook-enforced deterministic plan-execution system implementing Architecture A's enforcement kernel. Ships two CLIs and one PreToolUse hook. Defers the authoring/recipe/auto-verify convenience layer of the full Architecture A spec.

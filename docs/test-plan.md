@@ -1,16 +1,6 @@
 ---
-Status: Draft (Phase 3.1 output — awaiting Drew approval in Phase 3.2)
-Created: 2026-04-21
-Owner: Drew Arnold
-Related:
-  - docs/requirements-hardened.md — authoritative requirements (Phase 2.2; Drew-approved 2026-04-21)
-  - docs/design.md §12.1 — Tier A unit scope
-  - docs/design.md §12.2 — Tier B integration flows 1–7
-  - docs/design.md §12.3 — out of scope for Tier A/B (no Tier C)
-  - docs/decisions.md — D1–D13
-  - implementation-plan.md — Phase 3 / Task 3.1 briefing
-  - ~/projects/dev/dev-tools/projects/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md — parent architecture
-Supersedes: (none — new artifact)
+status: current
+updated: 2026-04-23
 ---
 
 # Plan Executor Tools — Test Plan (Tier A + Tier B)

@@ -1,17 +1,6 @@
 ---
-Status: Hardened (Phase 2.2 output — awaiting Drew approval in Phase 2.3)
-Created: 2026-04-21
-Owner: Drew Arnold
-Related:
-  - docs/requirements.md — Phase 2.1 draft (baseline; preserved for diff-review)
-  - docs/design.md — detailed design (primary source)
-  - docs/decisions.md — D1–D13 binding decisions
-  - implementation-plan.md — phased build plan
-  - ~/projects/dev/dev-tools/projects/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md — parent architectural spec
-  - ~/.claude/PAI/CLIFIRSTARCHITECTURE.md — CLI-First pattern (grounds TR-3.*)
-  - ~/.claude/PAI/TOOLS.md — PAI tool deployment convention (grounds TR-1.*, TR-9.*)
-  - ~/.claude/PAI/THEHOOKSYSTEM.md — hook conventions (grounds TR-6.*)
-Supersedes: docs/requirements.md
+status: current
+updated: 2026-04-23
 ---
 
 # Plan Executor Tools — Requirements (BRD + FRD + TRD), Hardened

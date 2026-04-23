@@ -1,20 +1,6 @@
 ---
-Status: DESIGN (pre-implementation)
-Created: 2026-04-21
-Owner: Drew Arnold
-Related:
-  - docs/decisions.md — binding architectural decisions D1–D12 referenced throughout this doc
-  - implementation-plan.md — phased build plan that executes this design
-  - README.md — project-specific summary
-  - ~/projects/dev/dev-tools/projects/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md — parent architectural spec
-  - ~/.claude/PAI/CLIFIRSTARCHITECTURE.md — CLI-First pattern that grounds all CLI choices
-  - ~/.claude/PAI/TOOLS.md — PAI/Tools/ deployment precedent
-  - ~/.claude/PAI/THEHOOKSYSTEM.md — hook conventions for PlanGate
-  - ~/.claude/skills/Utilities/CreateCLI/SKILL.md — Tier 1 CLI template
-Supersedes: none
-Intended readers:
-  - A future Phase-2 requirements-extraction session that will mechanically derive BR/FR/TR IDs from this doc
-  - Engineer subagents implementing each component via TDD in Phase 4+
+status: current
+updated: 2026-04-23
 ---
 
 # Plan Executor Tools — Design

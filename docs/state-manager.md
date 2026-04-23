@@ -1,3 +1,8 @@
+---
+status: current
+updated: 2026-04-23
+---
+
 # StateManager
 
 Sole writer and reader of `validation.json` for the Plan Executor Tools. Every mutation goes through this tool — CLI or programmatic API — so plan state cannot be silently corrupted by hand-editing or concurrent-write races.

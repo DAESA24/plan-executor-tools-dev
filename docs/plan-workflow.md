@@ -1,9 +1,11 @@
+---
+status: v1
+updated: 2026-04-23
+---
+
 # Plan Lifecycle — Convention Note
 
-> **Status:** working convention, v1 (established 2026-04-23).
-> Evolve as we run more builds; update this file as practice sharpens.
-
-This is the working convention for where implementation plans and `validation.json` state files live across the arc of a project — during an active build, and after it ships.
+This is the working convention for where implementation plans and `validation.json` state files live across the arc of a project — during an active build, and after it ships. Evolve as we run more builds; update this file as practice sharpens.
 
 ## Two kinds of artifact
 

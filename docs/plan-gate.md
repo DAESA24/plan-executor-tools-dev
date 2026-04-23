@@ -1,3 +1,8 @@
+---
+status: current
+updated: 2026-04-23
+---
+
 # PlanGate
 
 Claude Code `PreToolUse` hook that enforces plan discipline. When an active plan exists, blocks `Bash`, `Edit`, and `Write` tool calls unless the current task's criteria have all PASSed (or the call is an allow-listed StateManager / CheckRunner invocation).
