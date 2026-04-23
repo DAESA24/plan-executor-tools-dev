@@ -1,6 +1,6 @@
 # Plan Executor Tools — Documentation
 
-User-facing reference for the three deployed components. For architecture, design decisions, and the build plan, see [design.md](design.md), [decisions.md](decisions.md), and [../implementation-plan.md](../implementation-plan.md).
+User-facing reference for the three deployed components. For architecture and design decisions, see [design.md](design.md) and [decisions.md](decisions.md). For implementation plans (active and archived), see [`../plans/`](../plans/) — lifecycle convention in [plan-workflow.md](plan-workflow.md).
 
 ## The enforcement kernel
 
@@ -65,4 +65,5 @@ PlanGate hook always exits 0 and expresses block/allow through the `permissionDe
 - [plan-gate.md](plan-gate.md) — full PlanGate hook reference
 - [design.md](design.md) — architectural spec (§2 deployment, §3 schema, §4–7 component specs, §8 checksum, §9 libraries)
 - [decisions.md](decisions.md) — D1–D13 binding decisions
-- [../implementation-plan.md](../implementation-plan.md) — phased build history
+- [plan-workflow.md](plan-workflow.md) — `plans/active/` + `plans/archive/` lifecycle convention
+- [`../plans/`](../plans/) — implementation plans and validation-state history (current active build in `plans/active/`, completed builds in `plans/archive/<date-slug>/`)

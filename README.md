@@ -48,8 +48,6 @@ Hooks registered in `settings.json` apply session-wide. PlanGate fires on main a
 plan-executor-tools-dev/
 ├── README.md                      # This file (canonical)
 ├── CLAUDE.md                      # Read-only pointer to README.md
-├── implementation-plan.md         # Phased build plan with GATE blocks
-├── validation.json                # Deterministic state file
 ├── package.json
 ├── tsconfig.json
 ├── .gitignore
@@ -65,10 +63,22 @@ plan-executor-tools-dev/
 │       ├── state-types.ts         # validation.json schema types
 │       └── hook-types.ts          # PreToolUseHookInput type
 ├── __tests__/                     # Tier A unit + Tier B integration tests
+├── plans/
+│   ├── active/                    # Current build's implementation-plan.md + validation.json (empty between builds)
+│   └── archive/                   # Completed builds, one directory per initiative (YYYY-MM-DD-<slug>-vX.Y/)
 └── docs/
+    ├── README.md                  # Documentation index
     ├── design.md                  # Detailed design spec
-    └── decisions.md               # D1–D13 architectural decisions
+    ├── decisions.md               # D1–D13 architectural decisions
+    ├── test-plan.md               # Tier A + Tier B test plan
+    ├── requirements-hardened.md   # FR / TR / AR requirements
+    ├── plan-workflow.md           # plans/ lifecycle convention (active + archive)
+    ├── state-manager.md           # StateManager reference
+    ├── check-runner.md            # CheckRunner reference
+    └── plan-gate.md               # PlanGate hook reference
 ```
+
+Implementation plans and `validation.json` state files live under [`plans/`](plans/) — per-build artifacts, not timeless design. The lifecycle convention (author in `plans/active/`, archive on completion under `plans/archive/<date-slug>/`) is documented in [docs/plan-workflow.md](docs/plan-workflow.md).
 
 ## Development Workflow
 
