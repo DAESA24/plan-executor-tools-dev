@@ -49,9 +49,15 @@ function readPointer(): Pointer | null {
   }
 }
 
+function expandHome(p: string): string {
+  if (p === '~') return process.env.HOME ?? homedir();
+  if (p.startsWith('~/')) return join(process.env.HOME ?? homedir(), p.slice(2));
+  return p;
+}
+
 function tryRealpath(p: string): string | null {
   try {
-    return realpathSync(p);
+    return realpathSync(expandHome(p));
   } catch {
     return null;
   }

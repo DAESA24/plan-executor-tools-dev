@@ -191,7 +191,8 @@ export function run(options: RunOptions): RunResult {
 
   for (const cid of critKeys) {
     const crit = task.criteria[cid];
-    if (crit.status !== 'PENDING') continue;
+    // Re-evaluate PENDING and FAIL criteria (red→green cycle); skip PASS as idempotent.
+    if (crit.status === 'PASS') continue;
 
     if (crit.type === 'manual') {
       summaryManual++;

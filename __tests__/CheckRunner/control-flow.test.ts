@@ -39,6 +39,30 @@ describe('CheckRunner control flow and exit codes', () => {
   beforeEach(() => { tmpDir = makeTempDir(); });
   afterEach(() => { rmSync(tmpDir, { recursive: true, force: true }); });
 
+  test('TA-CheckRunner-025b: re-run re-evaluates FAIL criteria but skips PASS (red→green cycle)', () => {
+    // Regression caught in Phase 8.5 smoke test: once a criterion was FAIL'd, re-running
+    // CheckRunner skipped it entirely (status !== 'PENDING' guard), so fixing the bug and
+    // re-running never advanced the task. Correct behavior: re-evaluate FAIL, skip PASS.
+    const path = copyFixture('canonical-2x2x2-initialized.json', tmpDir);
+    let callCount = 0;
+    const flakyExec = (_cmd: string, _opts: { timeoutMs: number }): ExecResult => {
+      callCount++;
+      // First 2 calls (criterion 1 and 2 of task 1.1 on first run) → FAIL.
+      // Later calls → PASS (simulating the fix landing between runs).
+      if (callCount <= 2) return { stdout: 'FAIL', stderr: '', exitCode: 1, timedOut: false };
+      return { stdout: 'PASS', stderr: '', exitCode: 0, timedOut: false };
+    };
+    const first = run({ path, exec: flakyExec });
+    expect(first.summary.failed).toBe(2);
+    expect(first.advanced).toBe(false);
+
+    // Second run: both criteria are FAIL — must be re-evaluated (now returning PASS).
+    const second = run({ path, exec: flakyExec });
+    expect(second.summary.passed).toBe(2);
+    expect(second.summary.failed).toBe(0);
+    expect(second.advanced).toBe(true);
+  });
+
   test('TA-CheckRunner-025: every criterion PASS triggers advanceTask before exit (FR-2.22)', () => {
     const path = copyFixture('canonical-2x2x2-initialized.json', tmpDir);
     const result = run({ path, exec: passAllExec });

@@ -5,7 +5,7 @@
   "plan_checksum": null,
   "initialized": null,
   "current_phase": 4,
-  "current_task": "8.1",
+  "current_task": "8.6",
   "notes": "Plan authored 2026-04-21. Phase 1 (scaffold) pre-marked PASS based on session N work. Project was originally scaffolded as 'plan-executor-mvp-skill-dev' under skills-dev/; renamed and moved to 'plan-executor-tools-dev' under tools-dev/ later the same day to correctly reflect its CLI-First tools nature (no skill wrapper per D1). Execution runs under MANUAL DISCIPLINE — this project cannot enforce its own construction (chicken-and-egg). Orchestrator manually reads this file, runs criteria, and updates status/evidence honestly. Once built and deployed, Plan Executor Tools enforce subsequent plans (e.g., Presentations-skill build).",
   "phases": {
     "0": {
@@ -622,23 +622,23 @@
       "tasks": {
         "8.1": {
           "name": "Deploy CLIs to ~/.claude/PAI/Tools/",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-23T19:38:21.084Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "StateManager.ts deployed and executable at ~/.claude/PAI/Tools/",
               "type": "automated",
               "command": "test -x ~/.claude/PAI/Tools/StateManager.ts && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "Bundled via bun build --target=bun into self-contained files (no co-deployed lib/). StateManager.ts 23KB, CheckRunner.ts 24KB at ~/.claude/PAI/Tools/. chmod +x applied. bun --help on both returns correctly."
             },
             "2": {
               "check": "CheckRunner.ts deployed and executable at ~/.claude/PAI/Tools/",
               "type": "automated",
               "command": "test -x ~/.claude/PAI/Tools/CheckRunner.ts && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "test -x ~/.claude/PAI/Tools/StateManager.ts → OK; test -x ~/.claude/PAI/Tools/CheckRunner.ts → OK. Both respond to --help."
             },
             "3": {
               "check": "StateManager responds to --help",
@@ -658,31 +658,31 @@
         },
         "8.2": {
           "name": "Deploy hook to ~/.claude/hooks/",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-23T19:38:21.084Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "PlanGate.hook.ts deployed and executable at ~/.claude/hooks/",
               "type": "automated",
               "command": "test -x ~/.claude/hooks/PlanGate.hook.ts && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "PlanGate.hook.ts bundled (14KB, handler inlined per §9.4) at ~/.claude/hooks/PlanGate.hook.ts with chmod +x. No-pointer stdin smoke test returns exit 0 silent allow."
             }
           }
         },
         "8.3": {
           "name": "Register hook in ~/.claude/settings.json",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-23T19:38:21.084Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "settings.json is valid JSON after edit",
               "type": "automated",
               "command": "jq . ~/.claude/settings.json > /dev/null 2>&1 && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "Added PlanGate entry AFTER SecurityValidator on Bash, Edit, Write matchers in ~/.claude/settings.json PreToolUse. Existing CommitGuard (Bash) + SecurityValidator (all three) preserved. jq validation confirms valid JSON. Unrelated Read/AskUserQuestion/Task/Skill matchers unchanged. DISCOVERY: hook activated immediately (no Claude Code restart needed) — caught 2 real bugs mid-smoke-test."
             },
             "2": {
               "check": "PlanGate registered on Bash matcher",
@@ -716,16 +716,16 @@
         },
         "8.4": {
           "name": "Update ~/.claude/PAI/TOOLS.md",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-23T19:38:21.084Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "TOOLS.md contains a StateManager.ts section",
               "type": "automated",
               "command": "grep -q 'StateManager.ts' ~/.claude/PAI/TOOLS.md && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "~/.claude/PAI/TOOLS.md grew from 412 to 537 lines. StateManager.ts entry at line 352, CheckRunner.ts at line 422 — verbatim inserts from design.md §11.1 and §11.2 in the same format as existing Inference.ts / GetTranscript.ts / RemoveBg.ts sections. SKILL.md already indexes TOOLS.md (grep count = 1, no change needed)."
             },
             "2": {
               "check": "TOOLS.md contains a CheckRunner.ts section",
@@ -759,16 +759,16 @@
         },
         "8.5": {
           "name": "Smoke test — canned validation.json under hook enforcement",
-          "status": "PENDING",
-          "verified_at": null,
+          "status": "PASS",
+          "verified_at": "2026-04-23T19:38:21.084Z",
           "fix_attempts": 0,
           "criteria": {
             "1": {
               "check": "Fixture validation.json created at /tmp/smoke-test/validation.json",
               "type": "automated",
               "command": "test -f /tmp/smoke-test/validation.json && echo PASS || echo FAIL",
-              "status": "PENDING",
-              "evidence": ""
+              "status": "PASS",
+              "evidence": "Full 6-step smoke test at /tmp/smoke-test/ with 1-phase 1-task 1-automated-criterion plan. Results: (1) init writes pointer + checksum sha256:1f6c62... (2) Write attempt BLOCKED with permissionDecision=deny + correct reason mentioning task id + remediation command (3) Bash with ~/.claude/PAI/Tools/CheckRunner.ts tilde path → silent ALLOW (allow-list via realpath after tilde expansion) (4) CheckRunner without marker → FAIL with exit_code=0 (classifier detected FAIL on stdout despite exit 0) (5) marker created + CheckRunner re-run → FAIL criterion re-evaluated to PASS → advanceTask → plan COMPLETED → pointer deleted (6) Write attempt after pointer deletion → silent ALLOW. Event log at /tmp/smoke-test/.plan-executor/events.jsonl contains all 5 expected event types: plan.gate.blocked, plan.gate.allowed, plan.criterion.failed, plan.criterion.passed, plan.task.advanced (with plan_completed=true). TWO BUGS CAUGHT AND FIXED: (a) allow-list tokeniser did not expand ~ to $HOME — added expandHome() in PlanGateHandler.ts; (b) CheckRunner skipped FAIL criteria on re-run (guard was !== PENDING; changed to === PASS). Both bugs have new regression tests (TA-PlanGate-019b, TA-CheckRunner-025b). Full suite: 126/126 pass."
             },
             "2": {
               "check": "PlanGate blocks a Write attempt when current task is PENDING",

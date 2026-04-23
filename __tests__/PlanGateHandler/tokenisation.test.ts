@@ -103,6 +103,13 @@ describe('PlanGateHandler Bash tokenisation + allow-list (TR-8)', () => {
     }
   });
 
+  test('TA-PlanGate-019b: tilde (~) in the Bash token expands to $HOME before realpath match (TR-8.2 regression)', () => {
+    // Caught in Phase 8.5 smoke test: tokens like "bun ~/.claude/PAI/Tools/CheckRunner.ts"
+    // must match the allow-list. Node's realpath does NOT expand ~; the handler must.
+    const result = decide(bash('bun ~/.claude/PAI/Tools/CheckRunner.ts run'));
+    expect(result.hookSpecificOutput).toBeUndefined();
+  });
+
   test('TA-PlanGate-020: if realpath(target) does not exist on disk, allow-list does not match (TR-8.3)', () => {
     // Remove the seeded StateManager.ts so the allow-listed path no longer exists.
     rmSync(smPath, { force: true });
