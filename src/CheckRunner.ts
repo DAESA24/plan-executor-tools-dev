@@ -194,6 +194,18 @@ export function run(options: RunOptions): RunResult {
     return emptyResult(2, stdoutLines, stderrLines);
   }
 
+  // Refuse to run on uninitialized state — the active-pointer is written by
+  // StateManager init, and without it PlanGate silently no-ops. Letting
+  // CheckRunner advance tasks here produces "enforcement is live" theater.
+  if (state.plan_checksum === null || state.initialized === null) {
+    stderrLines.push(
+      `ERROR: E_NOT_INITIALIZED: validation.json has not been initialized ` +
+        `(plan_checksum and initialized are null). ` +
+        `Run: bun ~/.claude/PAI/Tools/StateManager.ts init --path ${options.path}`
+    );
+    return emptyResult(2, stdoutLines, stderrLines);
+  }
+
   // Resolve target task.
   const taskId = options.task ?? state.current_task;
   const phaseId = resolveTaskPhase(state, taskId);

@@ -2,8 +2,8 @@
   "plan": "implementation-plan.md",
   "project": "test-project",
   "status": "IN_PROGRESS",
-  "plan_checksum": null,
-  "initialized": null,
+  "plan_checksum": "sha256:a4284a2ebc42730f697c79ba5b85aa18052d44d0ca04155ef6b92719e0c9f4c2",
+  "initialized": "2026-04-21T14:00:00.000Z",
   "current_phase": 1,
   "current_task": "1.1",
   "phases": {

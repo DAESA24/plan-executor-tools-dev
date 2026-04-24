@@ -2,8 +2,8 @@
   "plan": "implementation-plan.md",
   "project": "test-project",
   "status": "IN_PROGRESS",
-  "plan_checksum": null,
-  "initialized": null,
+  "plan_checksum": "sha256:9b9bf43e73de09c696de8348744657b6813b551e3c6eae35d777186dad01101f",
+  "initialized": "2026-04-21T14:00:00.000Z",
   "current_phase": 1,
   "current_task": "1.1",
   "phases": {
@@ -17,16 +17,76 @@
           "verified_at": null,
           "fix_attempts": 0,
           "criteria": {
-            "1": { "check": "c1", "type": "automated", "command": "echo one && echo PASS", "status": "PENDING", "evidence": "" },
-            "2": { "check": "c2", "type": "automated", "command": "echo two && echo PASS", "status": "PENDING", "evidence": "" },
-            "3": { "check": "c3", "type": "automated", "command": "echo three && echo PASS", "status": "PENDING", "evidence": "" },
-            "4": { "check": "c4", "type": "automated", "command": "echo four && echo PASS", "status": "PENDING", "evidence": "" },
-            "5": { "check": "c5", "type": "automated", "command": "echo five && echo PASS", "status": "PENDING", "evidence": "" },
-            "6": { "check": "c6", "type": "automated", "command": "echo six && echo PASS", "status": "PENDING", "evidence": "" },
-            "7": { "check": "c7", "type": "automated", "command": "echo seven && echo PASS", "status": "PENDING", "evidence": "" },
-            "8": { "check": "c8", "type": "automated", "command": "echo eight && echo PASS", "status": "PENDING", "evidence": "" },
-            "9": { "check": "c9", "type": "automated", "command": "echo nine && echo PASS", "status": "PENDING", "evidence": "" },
-            "10": { "check": "c10", "type": "automated", "command": "echo ten && echo PASS", "status": "PENDING", "evidence": "" }
+            "1": {
+              "check": "c1",
+              "type": "automated",
+              "command": "echo one && echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            },
+            "2": {
+              "check": "c2",
+              "type": "automated",
+              "command": "echo two && echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            },
+            "3": {
+              "check": "c3",
+              "type": "automated",
+              "command": "echo three && echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            },
+            "4": {
+              "check": "c4",
+              "type": "automated",
+              "command": "echo four && echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            },
+            "5": {
+              "check": "c5",
+              "type": "automated",
+              "command": "echo five && echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            },
+            "6": {
+              "check": "c6",
+              "type": "automated",
+              "command": "echo six && echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            },
+            "7": {
+              "check": "c7",
+              "type": "automated",
+              "command": "echo seven && echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            },
+            "8": {
+              "check": "c8",
+              "type": "automated",
+              "command": "echo eight && echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            },
+            "9": {
+              "check": "c9",
+              "type": "automated",
+              "command": "echo nine && echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            },
+            "10": {
+              "check": "c10",
+              "type": "automated",
+              "command": "echo ten && echo PASS",
+              "status": "PENDING",
+              "evidence": ""
+            }
           }
         }
       }
