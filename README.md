@@ -38,7 +38,7 @@ Deployed artifacts:
 
 Test suite: 126/126 pass (67 StateManager + 33 CheckRunner + 23 PlanGate + 3 integration). Full user-facing reference in [docs/](docs/).
 
-**Archive:** the v0.1 implementation plan and final `validation.json` live at [`plans/archive/2026-04-23-plan-executor-tools-v0.1/`](plans/archive/2026-04-23-plan-executor-tools-v0.1/). Lifecycle convention for future builds: [docs/plan-workflow.md](docs/plan-workflow.md).
+**Archive:** the v0.1 implementation plan, final `validation.json`, and `postmortem.md` live at [`projects/archive/2026-04-23-plan-executor-tools-v0.1/`](projects/archive/2026-04-23-plan-executor-tools-v0.1/). Lifecycle convention for future builds: [projects/project-workflow.md](projects/project-workflow.md).
 
 **Execution mode for v0.1:** ran under MANUAL DISCIPLINE — the project couldn't enforce its own construction (chicken-and-egg). From the next session onward, every Claude Code session has hook enforcement live for plan-execution work.
 
@@ -79,22 +79,23 @@ plan-executor-tools-dev/
 │       ├── state-types.ts         # validation.json schema types
 │       └── hook-types.ts          # PreToolUseHookInput type
 ├── __tests__/                     # Tier A unit + Tier B integration tests
-├── plans/
+├── projects/
+│   ├── project-workflow.md        # projects/ lifecycle convention (active + archive)
 │   ├── active/                    # Current build's implementation-plan.md + validation.json (empty between builds)
 │   └── archive/                   # Completed builds, one directory per initiative (YYYY-MM-DD-<slug>-vX.Y/)
+│                                  #   — contains implementation-plan.md + validation.json + (optional) postmortem.md
 └── docs/
     ├── README.md                  # Documentation index
     ├── design.md                  # Detailed design spec
     ├── decisions.md               # D1–D13 architectural decisions
     ├── test-plan.md               # Tier A + Tier B test plan
     ├── requirements-hardened.md   # FR / TR / AR requirements
-    ├── plan-workflow.md           # plans/ lifecycle convention (active + archive)
     ├── state-manager.md           # StateManager reference
     ├── check-runner.md            # CheckRunner reference
     └── plan-gate.md               # PlanGate hook reference
 ```
 
-Implementation plans and `validation.json` state files live under [`plans/`](plans/) — per-build artifacts, not timeless design. The lifecycle convention (author in `plans/active/`, archive on completion under `plans/archive/<date-slug>/`) is documented in [docs/plan-workflow.md](docs/plan-workflow.md).
+Implementation plans and `validation.json` state files live under [`projects/`](projects/) — per-build artifacts, not timeless design. The lifecycle convention (author in `projects/active/`, archive on completion under `projects/archive/<date-slug>/` alongside the build's postmortem if one was written) is documented in [projects/project-workflow.md](projects/project-workflow.md).
 
 ## Development Workflow
 

@@ -9,7 +9,7 @@ Project-wide conventions for markdown documentation. Minimal on purpose — if t
 
 ## Frontmatter — every doc, two fields
 
-Every markdown file in `docs/`, `plans/**/*.md`, and the project root (`README.md`) opens with YAML frontmatter:
+Every markdown file in `docs/`, `projects/**/*.md`, and the project root (`README.md`) opens with YAML frontmatter:
 
 ```yaml
 ---
