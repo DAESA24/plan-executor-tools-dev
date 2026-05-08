@@ -1,6 +1,7 @@
 ---
 status: current
 updated: 2026-04-23
+supersedes: dev-tools/agentics-dev/tools-dev/plan-executor-tools-dev/docs/requirements.md
 ---
 
 # Plan Executor Tools — Requirements (BRD + FRD + TRD), Hardened
