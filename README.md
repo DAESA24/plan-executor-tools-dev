@@ -113,6 +113,6 @@ This project was originally scaffolded as `plan-executor-mvp-skill-dev/` under `
 
 ## Related Projects
 
-- [presentations-skill-dev](../../../../dev-sor/agentics-dev/skills-dev/presentations-skill-dev/) — first real-world project to execute under hook enforcement once Plan Executor Tools ship
+- [presentations-skill-dev](../../../dev-sor/skills-dev/presentations-skill-dev/) — first real-world project to execute under hook enforcement once Plan Executor Tools ship
 - [plan-execution-meta-skill-2026-03](projects/plan-execution-meta-skill-2026-03/) — architectural reference (A, B, C options)
-- [impeccable-design-skill-2026-04 (archived)](../../../../dev-sor/website-sor/projects/_archive/impeccable-design-skill-2026-04/) — precedent project using manual-discipline validation.json — this pattern's first successful use
+- [impeccable-design-skill-2026-04 (archived)](../../../dev-sor/website-sor/projects/_archive/impeccable-design-skill-2026-04/) — precedent project using manual-discipline validation.json — this pattern's first successful use

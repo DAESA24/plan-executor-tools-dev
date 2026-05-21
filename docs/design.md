@@ -174,7 +174,7 @@ The single state file all three components operate on. Located at the project's 
 
 ### 3.6 Concrete example (structural, abbreviated)
 
-A working example is already on disk at `~/projects/dev/dev-sor/agentics-dev/skills-dev/presentations-skill-dev/validation.json`. The shape in miniature:
+A working example is already on disk at `~/projects/dev/dev-sor/skills-dev/presentations-skill-dev/validation.json`. The shape in miniature:
 
 ```json
 {
@@ -1019,9 +1019,9 @@ This design doc is referenced by, and references, the following canonical source
 | `~/.claude/PAI/THEHOOKSYSTEM.md` | Hook stdin contract, matchers, multi-hook execution order, event emitter, graceful-failure pattern. |
 | `~/.claude/skills/Utilities/CreateCLI/SKILL.md` | Tier-1 characteristics (Bun + TypeScript, ~300–400 lines, manual argv, README + QUICKSTART). |
 | `~/projects/dev/dev-tools/projects/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md` | Parent architecture. Bypass-vector, failure-mode, and scope-boundary discussion. |
-| `~/projects/dev/dev-sor/agentics-dev/skills-dev/presentations-skill-dev/validation.json` | Live example of the JSON schema in §3. |
+| `~/projects/dev/dev-sor/skills-dev/presentations-skill-dev/validation.json` | Live example of the JSON schema in §3. |
 | `~/.claude/hooks/lib/hook-io.ts` | Source of `readHookInput()` imported by PlanGate.hook.ts. |
-| `~/projects/dev/dev-tools/agentics-dev/hooks-dev/md-list-guard-hook-dev/src/MdListGuard.hook.ts` | PostToolUse example; the closest extant implementation of the handler-delegate pattern (D3). |
+| `~/projects/dev/dev-tools/hooks-dev/md-list-guard-hook-dev/src/MdListGuard.hook.ts` | PostToolUse example; the closest extant implementation of the handler-delegate pattern (D3). |
 
 ---
 
