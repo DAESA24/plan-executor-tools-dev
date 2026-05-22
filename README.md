@@ -55,7 +55,7 @@ What changed: during the v5.0.0 upgrade planning, three decisions in [`~/project
 
 ## Design Reference
 
-Canonical architectural spec: [`projects/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md`](projects/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md).
+Canonical architectural spec: [`projects/assessments/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md`](projects/assessments/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md).
 
 Plan Executor Tools implement the enforcement-kernel subset of that architecture — see the "Note — 2026-04-21" block at the top of the architectural spec for scope rationale. Detailed design for this project: [`docs/design.md`](docs/design.md). Binding decisions: [`docs/decisions.md`](docs/decisions.md).
 
@@ -143,6 +143,6 @@ This project was originally scaffolded as `plan-executor-mvp-skill-dev/` under `
 
 ## Related Projects
 
-- [`projects/plan-execution-meta-skill-2026-03/`](projects/plan-execution-meta-skill-2026-03/) — architectural reference (A, B, C options)
+- [`projects/assessments/plan-execution-meta-skill-2026-03/`](projects/assessments/plan-execution-meta-skill-2026-03/) — architectural reference (A, B, C options)
 - [`impeccable-design-skill-2026-04` (archived)](../../../dev-sor/website-sor/projects/_archive/impeccable-design-skill-2026-04/) — precedent project using manual-discipline `validation.json` — this pattern's first successful use
 - [PAI v5.0.0 upgrade project](../../../../personal/pai-upgrades/5.0.0-upgrade/) — origin of the D8 / D16 / D23 sacrificial dispositions; consult [`docs/decisions.md`](../../../../personal/pai-upgrades/5.0.0-upgrade/docs/decisions.md) there for full reasoning
