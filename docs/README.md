@@ -5,7 +5,7 @@ updated: 2026-04-23
 
 # Plan Executor Tools — Documentation
 
-User-facing reference for the three deployed components. For architecture and design decisions, see [design.md](design.md) and [decisions.md](decisions.md). For implementation plans (active and archived) and postmortems, see [`../projects/`](../projects/) — lifecycle convention in [`../projects/project-workflow.md`](../projects/project-workflow.md).
+User-facing reference for the three deployed components. For architecture and design decisions, see [design.md](design.md) and [decisions.md](decisions.md). For implementation plans (active and archived) and postmortems, see [`../_projects/`](../_projects/) — lifecycle convention in [`../_projects/project-workflow.md`](../_projects/project-workflow.md).
 
 ## The enforcement kernel
 
@@ -70,5 +70,5 @@ PlanGate hook always exits 0 and expresses block/allow through the `permissionDe
 - [plan-gate.md](plan-gate.md) — full PlanGate hook reference
 - [design.md](design.md) — architectural spec (§2 deployment, §3 schema, §4–7 component specs, §8 checksum, §9 libraries)
 - [decisions.md](decisions.md) — D1–D13 binding decisions
-- [`../projects/project-workflow.md`](../projects/project-workflow.md) — `projects/active/` + `projects/archive/` lifecycle convention
-- [`../projects/`](../projects/) — implementation plans, validation-state history, and per-build postmortems (current active build in `projects/active/`, completed builds in `projects/archive/<date-slug>/`)
+- [`../_projects/project-workflow.md`](../_projects/project-workflow.md) — `_projects/active/` + `_projects/archive/` lifecycle convention
+- [`../_projects/`](../_projects/) — implementation plans, validation-state history, and per-build postmortems (current active build in `_projects/active/`, completed builds in `_projects/archive/<date-slug>/`)

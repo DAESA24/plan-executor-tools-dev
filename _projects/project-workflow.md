@@ -7,7 +7,7 @@ updated: 2026-04-23
 
 This is the working convention for where implementation plans, `validation.json` state files, and per-build artifacts live across the arc of a project — during an active build, and after it ships. Evolve as we run more builds; update this file as practice sharpens.
 
-Terminology note: the files that declare what a build will do (`implementation-plan.md`, `validation.json`) are still called **plans**. They are plans for **projects** — the `projects/` directory name reflects the container shape (initiatives we've run), not a rename of the artifacts themselves.
+Terminology note: the files that declare what a build will do (`implementation-plan.md`, `validation.json`) are still called **plans**. They are plans for **projects** — the `_projects/` directory name reflects the container shape (initiatives we've run), not a rename of the artifacts themselves.
 
 ## Two kinds of artifact
 
@@ -16,9 +16,9 @@ A long-lived codebase has two categorically different kinds of planning document
 | Kind | Examples | Lifespan | Lives in |
 |---|---|---|---|
 | **Timeless design** | `design.md`, `decisions.md`, `test-plan.md`, `requirements-hardened.md` | Outlives any single build; evolves as the architecture evolves | `docs/` |
-| **Per-build state** | `implementation-plan.md`, `validation.json`, `postmortem.md` | Bound to one specific initiative; becomes a historical snapshot once that initiative ships | `projects/` |
+| **Per-build state** | `implementation-plan.md`, `validation.json`, `postmortem.md` | Bound to one specific initiative; becomes a historical snapshot once that initiative ships | `_projects/` |
 
-Keeping them in separate directory trees is the core of this convention. `docs/` answers "how is this system designed?"; `projects/` answers "what initiatives have been executed against it, and what did each one leave behind?"
+Keeping them in separate directory trees is the core of this convention. `docs/` answers "how is this system designed?"; `_projects/` answers "what initiatives have been executed against it, and what did each one leave behind?"
 
 ## Directory layout
 
@@ -30,7 +30,7 @@ Keeping them in separate directory trees is the core of this convention. `docs/`
 │   ├── decisions.md            binding decisions (timeless)
 │   ├── test-plan.md            test strategy (timeless)
 │   └── ...
-├── projects/
+├── _projects/
 │   ├── project-workflow.md     THIS FILE
 │   ├── active/                 ← current build's plan lives here
 │   │   ├── implementation-plan.md
@@ -43,7 +43,7 @@ Keeping them in separate directory trees is the core of this convention. `docs/`
 ├── src/, __tests__/, …
 ```
 
-`projects/active/` is where the **next** build's plan will be authored and executed. `projects/archive/` is a read-only history.
+`_projects/active/` is where the **next** build's plan will be authored and executed. `_projects/archive/` is a read-only history.
 
 ## Archive-dir naming
 
@@ -62,12 +62,12 @@ Examples:
 
 ### 1. Author
 
-Write the prose plan in `projects/active/implementation-plan.md`. Hand-author the initial `projects/active/validation.json` with phases, tasks, and criteria (see [state-manager.md](../docs/state-manager.md#validationjson-schema) for schema). Timeless design docs under `docs/` should already exist or get authored in parallel.
+Write the prose plan in `_projects/active/implementation-plan.md`. Hand-author the initial `_projects/active/validation.json` with phases, tasks, and criteria (see [state-manager.md](../docs/state-manager.md#validationjson-schema) for schema). Timeless design docs under `docs/` should already exist or get authored in parallel.
 
 ### 2. Initialise
 
 ```bash
-bun ~/.claude/PAI/Tools/StateManager.ts init --path projects/active/validation.json
+bun ~/.claude/PAI/Tools/StateManager.ts init --path _projects/active/validation.json
 ```
 
 This computes `plan_checksum`, stamps `initialized`, and writes the active-plan pointer at `$HOME/.claude/MEMORY/STATE/plan-executor.active.json`. The PlanGate hook begins enforcing on Bash/Edit/Write tool calls from this moment until the plan completes.
@@ -87,25 +87,25 @@ The final `advance-task` (last task of last phase) flips top-level `status: "COM
 SLUG=2026-04-23-plan-executor-tools-v0.1
 
 # 2. Create the archive directory.
-mkdir -p projects/archive/$SLUG
+mkdir -p _projects/archive/$SLUG
 
 # 3. Move (git-tracked rename preserves history).
-git mv projects/active/implementation-plan.md projects/archive/$SLUG/
-git mv projects/active/validation.json        projects/archive/$SLUG/
+git mv _projects/active/implementation-plan.md _projects/archive/$SLUG/
+git mv _projects/active/validation.json        _projects/archive/$SLUG/
 
 # 4. (Optional) If a postmortem was written for this build, move it in too.
 #    Postmortems belong to the specific initiative, not the timeless docs.
-git mv docs/postmortem.md projects/archive/$SLUG/   # if one exists
+git mv docs/postmortem.md _projects/archive/$SLUG/   # if one exists
 
 # 5. Commit.
 git commit -m "chore(projects): archive $SLUG build"
 ```
 
-`projects/active/` is now empty, ready for the next initiative.
+`_projects/active/` is now empty, ready for the next initiative.
 
 ### 6. Start the next build
 
-Go back to step 1. Author the new build's plan in `projects/active/`. Run `init` against the new `validation.json`. The pointer now points at the new active plan. PlanGate enforces again.
+Go back to step 1. Author the new build's plan in `_projects/active/`. Run `init` against the new `validation.json`. The pointer now points at the new active plan. PlanGate enforces again.
 
 ## Edge cases
 
@@ -116,7 +116,7 @@ Only one plan can be active at a time — the pointer file holds a single path (
 - **Serial handling** — pause the feature plan by deleting the pointer (or equivalently, letting it sit without a pointer), init the bug-fix plan, complete + archive it, then re-init the feature plan to restore the pointer.
 - Re-init is idempotent as long as `plan_checksum` still matches, which it will if the feature plan's criteria structure hasn't drifted.
 
-If you foresee this becoming common, `projects/active/` can also hold subdirectories (`projects/active/feature-X/`, `projects/active/bugfix-Y/`) — the convention is just about directory shape; the pointer's `validation_path` can target any absolute location.
+If you foresee this becoming common, `_projects/active/` can also hold subdirectories (`_projects/active/feature-X/`, `_projects/active/bugfix-Y/`) — the convention is just about directory shape; the pointer's `validation_path` can target any absolute location.
 
 ### The `plan` field in validation.json
 
@@ -132,22 +132,22 @@ If an initiative is abandoned mid-way, flip top-level `status: "ABANDONED"` via 
 
 ### Postmortems
 
-A postmortem is a per-build artifact: it captures what a specific initiative taught us. It belongs inside the archive directory of the initiative it post-mortems (`projects/archive/<slug>/postmortem.md`), not under `docs/`. If a postmortem is started mid-build, author it at `docs/postmortem.md` for convenience and move it into the archive at step 5 above.
+A postmortem is a per-build artifact: it captures what a specific initiative taught us. It belongs inside the archive directory of the initiative it post-mortems (`_projects/archive/<slug>/postmortem.md`), not under `docs/`. If a postmortem is started mid-build, author it at `docs/postmortem.md` for convenience and move it into the archive at step 5 above.
 
 ## Why this shape
 
-- **Self-contained.** A future reader cloning the repo sees the full planning history — both architecture (`docs/`) and execution (`projects/archive/`) — without needing access to any external archive.
+- **Self-contained.** A future reader cloning the repo sees the full planning history — both architecture (`docs/`) and execution (`_projects/archive/`) — without needing access to any external archive.
 - **Matches the mental model.** Design is a noun that evolves; projects are verbs that execute once and are done. Separate trees make that distinction manifest.
 - **Pointer-transparent.** PlanGate's pointer holds absolute paths, so moving `validation.json` out of the project root is a zero-code-change migration. Only the `--path` argument to `init` changes.
-- **Git-native.** `git mv` preserves file history across the archive step. `git log projects/archive/*/implementation-plan.md` tells the story of every build the project has run.
-- **PAI-wide standard.** Nested projects inside a product or tools container use `projects/` as their container for initiative-bound artifacts. Consistent directory shape across every PAI project makes context-switching cheap.
+- **Git-native.** `git mv` preserves file history across the archive step. `git log _projects/archive/*/implementation-plan.md` tells the story of every build the project has run.
+- **PAI-wide standard.** Nested projects inside a product or tools container use `_projects/` as their container for initiative-bound artifacts. Consistent directory shape across every PAI project makes context-switching cheap.
 
 ## Open questions
 
 Things that may shake out as we run more builds and will prompt updates to this file:
 
-- Should `projects/archive/` carry a top-level `README.md` indexing builds with one-line descriptions? (Probably yes once there's more than one archived build.)
-- Is there value in a `projects/active/<slug>/` subdir even for a single-plan build, for symmetry with the archive shape?
+- Should `_projects/archive/` carry a top-level `README.md` indexing builds with one-line descriptions? (Probably yes once there's more than one archived build.)
+- Is there value in a `_projects/active/<slug>/` subdir even for a single-plan build, for symmetry with the archive shape?
 - What's the right cadence for pruning very old archives — never, or at major-version boundaries?
 
 Update this doc when we decide.

@@ -17,7 +17,7 @@ Local files describe the project's history and design; the GitHub repo carries t
 - **Open issues:** [`/issues?q=is%3Aissue+is%3Aopen`](https://github.com/DAESA24/plan-executor-tools-dev/issues?q=is%3Aissue+is%3Aopen) — most importantly issue #3 (the post-v5 resume-vs-retire decision)
 - **Open PRs:** [`/pulls?q=is%3Apr+is%3Aopen`](https://github.com/DAESA24/plan-executor-tools-dev/pulls?q=is%3Apr+is%3Aopen)
 
-Issues and PRs are the source of truth for in-flight thinking that hasn't yet landed in `docs/` or `projects/archive/`.
+Issues and PRs are the source of truth for in-flight thinking that hasn't yet landed in `docs/` or `_projects/archive/`.
 
 ## What This Dev Tree Builds (When Active)
 
@@ -55,7 +55,7 @@ What changed: during the v5.0.0 upgrade planning, three decisions in [`~/project
 
 ## Design Reference
 
-Canonical architectural spec: [`projects/assessments/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md`](projects/assessments/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md).
+Canonical architectural spec: [`_projects/assessments/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md`](_projects/assessments/plan-execution-meta-skill-2026-03/architecture-a-gate-keeper.md).
 
 Plan Executor Tools implement the enforcement-kernel subset of that architecture — see the "Note — 2026-04-21" block at the top of the architectural spec for scope rationale. Detailed design for this project: [`docs/design.md`](docs/design.md). Binding decisions: [`docs/decisions.md`](docs/decisions.md).
 
@@ -65,7 +65,7 @@ Plan Executor Tools implement the enforcement-kernel subset of that architecture
 
 At cut, the v0.1 three-component enforcement kernel was built, tested, deployed, and live. The test suite was **126/126 pass at v0.1** (67 StateManager + 33 CheckRunner + 23 PlanGate + 3 integration). Drew signed off on Task 8.6 after the smoke test passed end-to-end.
 
-The v0.1 implementation plan, final `validation.json`, and `postmortem.md` are archived at [`projects/archive/2026-04-23-plan-executor-tools-v0.1/`](projects/archive/2026-04-23-plan-executor-tools-v0.1/). Full user-facing reference for the components in [`docs/`](docs/). Lifecycle convention for future builds: [`projects/project-workflow.md`](projects/project-workflow.md).
+The v0.1 implementation plan, final `validation.json`, and `postmortem.md` are archived at [`_projects/archive/2026-04-23-plan-executor-tools-v0.1/`](_projects/archive/2026-04-23-plan-executor-tools-v0.1/). Full user-facing reference for the components in [`docs/`](docs/). Lifecycle convention for future builds: [`_projects/project-workflow.md`](_projects/project-workflow.md).
 
 **Execution mode during v0.1 build:** ran under MANUAL DISCIPLINE — the project couldn't enforce its own construction (chicken-and-egg). Once shipped, every Claude Code session had hook enforcement live for plan-execution work until the v5.0.0 upgrade.
 
@@ -106,8 +106,8 @@ plan-executor-tools-dev/
 │       ├── state-types.ts         # validation.json schema types
 │       └── hook-types.ts          # PreToolUseHookInput type
 ├── __tests__/                     # Tier A unit + Tier B integration tests
-├── projects/
-│   ├── project-workflow.md        # projects/ lifecycle convention (active + archive)
+├── _projects/
+│   ├── project-workflow.md        # _projects/ lifecycle convention (active + archive)
 │   ├── active/                    # Current build's implementation-plan.md + validation.json (empty between builds)
 │   └── archive/                   # Completed builds, one directory per initiative (YYYY-MM-DD-<slug>-vX.Y/)
 │                                  #   — contains implementation-plan.md + validation.json + (optional) postmortem.md
@@ -123,7 +123,7 @@ plan-executor-tools-dev/
     └── plan-gate.md               # PlanGate hook reference
 ```
 
-Implementation plans and `validation.json` state files live under [`projects/`](projects/) — per-build artifacts, not timeless design. The lifecycle convention (author in `projects/active/`, archive on completion under `projects/archive/<date-slug>/` alongside the build's postmortem if one was written) is documented in [`projects/project-workflow.md`](projects/project-workflow.md).
+Implementation plans and `validation.json` state files live under [`_projects/`](_projects/) — per-build artifacts, not timeless design. The lifecycle convention (author in `_projects/active/`, archive on completion under `_projects/archive/<date-slug>/` alongside the build's postmortem if one was written) is documented in [`_projects/project-workflow.md`](_projects/project-workflow.md).
 
 ## Development Workflow (Inactive Pending Resume Decision)
 
@@ -143,6 +143,6 @@ This project was originally scaffolded as `plan-executor-mvp-skill-dev/` under `
 
 ## Related Projects
 
-- [`projects/assessments/plan-execution-meta-skill-2026-03/`](projects/assessments/plan-execution-meta-skill-2026-03/) — architectural reference (A, B, C options)
+- [`_projects/assessments/plan-execution-meta-skill-2026-03/`](_projects/assessments/plan-execution-meta-skill-2026-03/) — architectural reference (A, B, C options)
 - [`impeccable-design-skill-2026-04` (archived)](../../../dev-sor/website-sor/projects/_archive/impeccable-design-skill-2026-04/) — precedent project using manual-discipline `validation.json` — this pattern's first successful use
 - [PAI v5.0.0 upgrade project](../../../../personal/pai-upgrades/5.0.0-upgrade/) — origin of the D8 / D16 / D23 sacrificial dispositions; consult [`docs/decisions.md`](../../../../personal/pai-upgrades/5.0.0-upgrade/docs/decisions.md) there for full reasoning
