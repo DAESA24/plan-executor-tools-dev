@@ -366,6 +366,6 @@ This is the working catalog Drew's stated objective calls for. Each enhancement 
 
 ### Related working artifacts
 
-- This synthesis's ISA: `~/.claude/PAI/MEMORY/WORK/20260522-three-project-synthesis-with-plan-executor/ISA.md`
-- The post-v5-sacrifice Plan Executor Tool summary report: `~/.claude/PAI/MEMORY/WORK/20260522-plan-executor-summary-report/plan-executor-tools-project-summary-2026-05-22.md`
+- This synthesis's ISA: `~/.claude/PAI/MEMORY/WORK/2026-05-22T135427_three-project-synthesis-with-plan-executor/ISA.md`
+- The post-v5-sacrifice Plan Executor Tool summary report: `~/.claude/PAI/MEMORY/WORK/2026-05-22T122154_plan-executor-summary-report/plan-executor-tools-project-summary-2026-05-22.md`
 - Parent ISA for the dev-folder-reorg-design work: `~/.claude/PAI/MEMORY/WORK/dev-folder-reorg-design/ISA.md`

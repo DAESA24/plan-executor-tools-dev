@@ -149,10 +149,10 @@ console.log("ALL TASKS PASSED");
 ```typescript
 async function task3() {
   // Compiled steps
-  execSync("mv ~/projects/work/brand ~/projects/work/sor-co/brand");
+  execSync("mv ~/projects/work/brand ~/projects/sor-co/brand");
 
   // AI_REQUIRED: "Update README.md path references"
-  console.log("AI_REQUIRED: Update README.md path references in ~/projects/work/sor-co/brand/");
+  console.log("AI_REQUIRED: Update README.md path references in ~/projects/sor-co/brand/");
   console.log("Run: bun run CompiledRunner.ts fix --task 3 --step 2");
   process.exit(2); // Exit code 2 = AI fix cycle needed (not failure)
 
